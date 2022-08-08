@@ -1,0 +1,22 @@
+{
+  "name": "gestionmaintenance_backend",
+  "version": "1.0.0",
+  "description": "backend server",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc"
+  },
+  "author": "idir yacine",
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.17.1",
+    "socket.io": "^4.5.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.1",
+    "eslint": "^8.3.0",
+    "node-ts": "1.0.0 - 1.2.0"
+  }
+}
