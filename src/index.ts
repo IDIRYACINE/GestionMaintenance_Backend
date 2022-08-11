@@ -1,17 +1,26 @@
+/// <reference path="../types/ApiInterface.ts" />
+
+
 import express from 'express';
 import path from 'node:path';
+import cors from 'cors'
 import { getAllFiles } from './Utilities/FileLoader';
-import { ApiTypes } from '../types/ApiInterface';
-import { RegisterApiCallback } from '../types/FileLoader';
+import { AllowedHeaders, AllowedMethods, ApiMethods } from '../configs/Configs';
 
 const app = express();
 const port = 3000;
 
 
+app.use(cors({
+  origin :"*",
+  allowedHeaders :AllowedHeaders,
+  methods : AllowedMethods
+}))
+
 const eventsPath = path.join(process.cwd(), 'apis');
 
 const registerApis : RegisterApiCallback = (api)=>{
-	if (api.type === ApiTypes.Get) {
+	if (api.type === ApiMethods.Get) {
     app.get(api.url, (req, res) => {
         api.execute(req, res);
     })

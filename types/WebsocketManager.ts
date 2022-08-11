@@ -1,5 +1,4 @@
 
-export declare namespace WebsocketManager{
     
     enum socketEvents {
         onConnection = "connection",
@@ -22,5 +21,4 @@ export declare namespace WebsocketManager{
     interface WebsocketManager {
         broadcastMessage : broadcastMessage,
     }
-}
 

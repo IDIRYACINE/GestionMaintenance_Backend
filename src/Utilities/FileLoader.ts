@@ -1,6 +1,6 @@
-import {readdirSync} from 'node:fs';
-import { GetAllFilesRecusrsive,GetAllFiles,IsDirectoryExecluded } from '../../types/FileLoader';
+/// <reference path="../../types/FileLoader.ts" />
 
+import {readdirSync} from 'node:fs';
 
 const isDirectoryExecluded :IsDirectoryExecluded = (subdirectoryName)=>{
     const isExcluded = excludedSubDirectories[subdirectoryName] != undefined

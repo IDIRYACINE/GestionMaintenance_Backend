@@ -1,4 +1,3 @@
-import { ApiInterface } from "./ApiInterface"
 
     type SingleValueCallback = (value:any) => void
     
@@ -7,7 +6,7 @@ import { ApiInterface } from "./ApiInterface"
      * @param {string} subdirectoryName 
      * @returns {boolean}
      */
-     export type IsDirectoryExecluded = (subdirectoryName:string) => boolean
+     type IsDirectoryExecluded = (subdirectoryName:string) => boolean
 
     /**
      * @param {string} dirPath root directory to start looking for js files under it and it's subdirectories 
@@ -15,7 +14,7 @@ import { ApiInterface } from "./ApiInterface"
      * the default import is passed as a param to the callback
      *  @returns {void}
     */
-    export type GetAllFilesRecusrsive = (dirPath : string, callback : SingleValueCallback) => void
+    type GetAllFilesRecusrsive = (dirPath : string, callback : SingleValueCallback) => void
 
     /**
      * @param {string} dirPath root directory to start looking for js files
@@ -23,6 +22,4 @@ import { ApiInterface } from "./ApiInterface"
      *  the default import is passed as a param to the callback
      * @returns {void}
      */
-    export type GetAllFiles = (dirPath : string, callback : SingleValueCallback) => void
-
-    export type RegisterApiCallback = (event:ApiInterface) => void
+    type GetAllFiles = (dirPath : string, callback : SingleValueCallback) => void

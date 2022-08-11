@@ -1,31 +1,19 @@
-import { Request, Response } from "express";
 
-export enum ApiTypes {
-    Get,
-    Post
-}
+type ExpressResponse = import ("express").Response;
 
-export enum ApisEnum{
-    loginAdmin = "loginAdmin",
-    fetchActiveSession = "fetchActiveSession",
-    fetchActiveSessionRecords = "fetchActiveSessionRecords",
-    openSession = "openSession",
-    closeSession = "closeSession",
-    registerSessionWorker = "registerSessionWorker",
-    unregisterSessionWorker = "unregisterSessionWorker",
-    updateSessionWorker = "updateSessionWorker",
-    connectUser = "loginUser",
-    fetchSessionRecords = "fetchSessionRecords",
-    postSessionRecords = "postSessionRecords",
-    fetchProduct = "fetchProduct",
-}
+type ExpressRequest = import ("express").Request;
 
-export interface ApiInterface{
-    name : ApisEnum,
+type Apis = import ("../configs/Configs").ApisEnum;
+type ApisMethods = import ("../configs/Configs").ApiMethods;
+
+interface ApiInterface{
+    name : Apis,
     version : number,
     description :  string,
-    type : ApiTypes,
+    type : ApisMethods,
     url :  string,
-    execute : (req:Request,res:Response) => void,
+    execute : (req:ExpressRequest,res:ExpressResponse) => void,
     onError : (error:any) => void,
 }
+
+type RegisterApiCallback = (event:ApiInterface) => void
