@@ -5,7 +5,8 @@ import express from 'express';
 import path from 'node:path';
 import cors from 'cors'
 import { getAllFiles } from './Utilities/FileLoader';
-import { AllowedHeaders, AllowedMethods, ApiMethods } from '../configs/Configs';
+import { AllowedHeaders, AllowedMethods, ApiMethods, testDatabaseConnection } from '../configs/Configs';
+import { MariaDb } from './Databases/MariaDb/MariaDb';
 
 const app = express();
 const port = 3000;
@@ -33,6 +34,8 @@ const registerApis : RegisterApiCallback = (api)=>{
 }
 
 getAllFiles(eventsPath,registerApis)
+
+MariaDb.connect(testDatabaseConnection);
 
 app.listen(port, () => {
   return console.log(`Express is listening at http://localhost:${port}`);

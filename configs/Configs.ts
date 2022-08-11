@@ -1,3 +1,4 @@
+/// <reference path="../types/Database.ts" />
 
 export const apisRootPath = "/v/";
 
@@ -15,7 +16,7 @@ export enum ApisEnum{
     registerSessionWorker = "registerSessionWorker",
     unregisterSessionWorker = "unregisterSessionWorker",
     updateSessionWorker = "updateSessionWorker",
-    connectUser = "loginUser",
+    loginUser = "loginUser",
     fetchSessionRecords = "fetchSessionRecords",
     postSessionRecords = "postSessionRecords",
     fetchProduct = "fetchProduct",
@@ -29,6 +30,13 @@ enum Headers {
 enum Methods {
     Get = "GET",
     Post = "POST",
+}
+
+export const testDatabaseConnection : ConnectionParameters = {
+    host: "localhost", 
+    user: "idir", 
+    password: "idir",
+    database: "test"
 }
 
 export const AllowedHeaders = [Headers.ContentType, Headers.AccessToken];
