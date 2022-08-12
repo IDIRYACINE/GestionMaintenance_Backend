@@ -30,19 +30,11 @@ const autherisedResponse = (res: Response): void => {
 }
 
 const authenticateAdmin = (req: Request, res: Response): void =>{
-    const password  = req.query.password as string 
-    const username = req.query.username as string
     const accessToken = req.query.accessToken as string
 
     Authentication.authenticateAccessToken(accessToken).then(validToken => {
         if(validToken){
-            Authentication.authenticateAdmin(username, password).then(validCredential => {
-                if(validCredential){
-                    autherisedResponse(res);
-                    return;
-                }
-                unautherisedResponse(res);
-            })
+            autherisedResponse(res);
             return;
         }
         unautherisedResponse(res);

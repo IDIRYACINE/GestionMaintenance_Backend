@@ -1,4 +1,5 @@
 /// <reference path="../types/ApiInterface.ts" />
+import { Authentication } from "Authentication/Authentication";
 import { Request, Response } from "express";
 import { ApiMethods, ApisEnum, apisRootPath } from "../configs/Configs";
 
@@ -6,6 +7,33 @@ const name = ApisEnum.loginUser;
 const version = 0;
 const description = "login user";
 
+const loginWorker = async (req: Request, res: Response) => {
+    const password  = req.query.password as string 
+    const username = req.query.username as string
+
+    Authentication.authenticateUser(username, password).then(credential => {
+        if(credential.isAutherised){
+            autherisedResponse(res,credential);
+            return;
+        }
+        unautherisedResponse(res);
+    })
+}
+
+const autherisedResponse = (res: Response,credential:AutherisedLoginResponse): void => {
+    res.status(200)
+    res.json(credential)
+}
+
+const unautherisedResponse = (res: Response): void => {
+    res.status(401)
+
+    const json : AutherisedLoginResponse = {
+        isAutherised: false
+    }
+
+    res.json(json)
+}
 
 const LoginUser : ApiInterface = {
     name: name,
@@ -16,9 +44,7 @@ const LoginUser : ApiInterface = {
     onError: function (error: any): void {
         console.log(error);
     },
-    execute: function (req: Request, res: Response): void {
-        throw new Error("Function not implemented.");
-    }
+    execute: loginWorker
 }
 
 export default LoginUser;

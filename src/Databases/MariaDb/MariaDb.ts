@@ -3,6 +3,7 @@
 import { ActiveSessionRecordsTable } from "../Common/ActiveSessionRecordsTable";
 import { SessionWorkersTable } from "../Common/SessionWorkersTable";
 import mariaDatabase from "mariadb";
+import { SessionTable } from "Databases/Common/SessionsTable";
 
 let db : mariaDatabase.Connection; 
 
@@ -28,29 +29,82 @@ export const MariaDb : Database = {
         db.destroy();
     },
 
-    openSession: function (): Promise<boolean> {
-        throw new Error("Function not implemented.");
+    openSession: async function (session): Promise<void> {
+        db.execute(SessionTable.openSessionQuery,[
+            session.sessionId,
+            session.active,
+            session.startDate,
+            session.endDate
+        ]);
     },
-    closeSession: function (): Promise<boolean> {
-        throw new Error("Function not implemented.");
+    closeSession: async function (session): Promise<void> {
+        db.execute(SessionTable.closeSessionQuery,[
+            session.active,
+            session.sessionId
+        ]);
+    
+        const batchedQuery = `${SessionWorkersTable.clearAllQuery};
+            ${ActiveSessionRecordsTable.clearAllQuery}`;
+        db.execute(batchedQuery)
     },
-    fetchActiveSession: function (): Promise<Session> {
-        throw new Error("Function not implemented.");
+
+    fetchActiveSession: async function (): Promise<Session> {
+
+        return db.query(SessionTable.selectActiveSessionQuery).then(rows => {
+            if (rows.length === 0) {
+                return null;
+            }
+            return rows[0];
+        })
     },
-    fetchActiveSessionRecords: function (): Promise<SessionRecord[]> {
-        throw new Error("Function not implemented.");
+
+    fetchActiveSessionRecords: async function (): Promise<SessionRecord[]> {
+        return db.execute(ActiveSessionRecordsTable.selectAllQuery)
     },
-    registerSessionWorker: function (worker: SessionWorker): Promise<boolean> {
-        throw new Error("Function not implemented.");
+
+    registerSessionWorker: async function (worker): Promise<void> {
+        db.execute(SessionWorkersTable.registerWorkerQuery, [
+            worker.id,
+            worker.groupId,
+            worker.phone,
+            worker.password,
+            worker.username,
+        ]);
     },
-    unregisterSessionWorker: function (worker: SessionWorker): Promise<boolean> {
-        throw new Error("Function not implemented.");
+    unregisterSessionWorker: async function (worker): Promise<void> {
+        db.execute(SessionWorkersTable.unregisterWorkerQuery, [worker.id]);
     },
-    updateSessionWorker: function (worker: SessionWorker): Promise<boolean> {
-        throw new Error("Function not implemented.");
+    updateSessionWorker: async function (worker): Promise<void> {
+        db.execute(SessionWorkersTable.updateWorkerQuery, [
+            worker.password,
+            worker.username,
+            worker.phone,
+            worker.groupId,
+            worker.id,
+        ]);
     },
-    postSessionRecord: function (record: SessionRecord): Promise<boolean> {
-        throw new Error("Function not implemented.");
+    registerSessionRecord: async function (record): Promise<void> {
+        db.execute(ActiveSessionRecordsTable.registerRecordQuery, [
+            record.sessionId,
+            record.workerId,
+            record.groupId,
+            record.inventoryId,
+            record.recordDate,
+            record.stockQuantity,
+            record.recordQuantity,
+            record.stockPrice,
+            record.quantityShift,
+            record.priceShift,
+        ]);
+    },
+
+    fetchSessionWorker: async function (phone, password): Promise<SessionWorker> {
+        return db.query(SessionWorkersTable.selectQuery, [phone, password]).then(rows => {
+            if (rows.length === 0) {
+                return null;
+            }
+            return rows[0];
+        });
     }
 }
 
@@ -60,5 +114,6 @@ async function createTablesIfNotExists(): Promise<void> {
     if (tablesQueryRows.length === 0) {
         db.execute(ActiveSessionRecordsTable.createTableQuery);
         db.execute(SessionWorkersTable.createTableQuery);
+        db.execute(SessionTable.createTableQuery);
     }
 }

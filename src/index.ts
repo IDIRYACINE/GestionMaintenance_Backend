@@ -7,10 +7,9 @@ import cors from 'cors'
 import { getAllFiles } from './Utilities/FileLoader';
 import { AllowedHeaders, AllowedMethods, ApiMethods, testDatabaseConnection } from '../configs/Configs';
 import { MariaDb } from './Databases/MariaDb/MariaDb';
+import { websocketManager } from './WebSocketManager/WebSocketManager';
 
 const app = express();
-const port = 3000;
-
 
 app.use(cors({
   origin :"*",
@@ -37,6 +36,7 @@ getAllFiles(eventsPath,registerApis)
 
 MariaDb.connect(testDatabaseConnection);
 
-app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
-})
+const httpServer = app.listen(process.env.PORT || 3000)
+
+websocketManager.createSocket(httpServer);
+

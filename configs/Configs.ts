@@ -39,6 +39,9 @@ export const testDatabaseConnection : ConnectionParameters = {
     database: "test"
 }
 
+export const autherisedWorkerToken = "embagvcdfgeauth203";
+export const autherisedAdminToken = "embag343adminvcs";
+
 export const AllowedHeaders = [Headers.ContentType, Headers.AccessToken];
 export const AllowedMethods = [Methods.Get, Methods.Post];
-
+export const AllowedOrigins = ["http://localhost:3000"];

@@ -1,11 +1,13 @@
-
+/// <reference path="../types/ApiInterface.ts" />
 
 interface Authentication {
     authenticateAccessToken(accessToken: string): Promise<boolean>;
-    authenticateAdmin(username: string, password: string): Promise<boolean>;
-    authenticateUser(username: string, password: string): Promise<boolean>;
+    authenticateAdmin(adminToken: string): Promise<boolean>;
+    authenticateUser(phone: string, password: string): Promise<AutherisedLoginResponse>;
 }
 
 interface AutherisedLoginResponse {
-    isAutherised: boolean;
+    isAutherised: boolean,
+    workerId? : number,
+    accessToken?: string
 }

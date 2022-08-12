@@ -16,7 +16,7 @@ enum Attributes{
 }
 
 enum AttributesTypes{
-    RecordId = 'INTEGER PRIMARY KEY AUTOINCREMENT',
+    RecordId = 'INTEGER PRIMARY KEY',
     SessionId = 'INTEGER',
     WorkerId = 'INTEGER',
     GroupId = 'INTEGER',
@@ -40,6 +40,26 @@ const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
     ${Attributes.QuantityShift} ${AttributesTypes.QuantityShift},
     ${Attributes.PriceShift} ${AttributesTypes.PriceShift})`;
 
+const selectAllQuery = `SELECT * FROM ${tableName} LIMIT ? OFFSET ?`;
+
+const clearAllQuery = `TRUNCATE TABLE ${tableName}`;
+
+const registerRecordQuery = `INSERT INTO ${tableName} (
+    ${Attributes.RecordId},
+    ${Attributes.WorkerId} , ${Attributes.GroupId},${Attributes.InventoryId},
+    ${Attributes.RecordDate}, ${Attributes.StockQuantity}, ${Attributes.RecordQuantity},
+    ${Attributes.StockPrice}, ${Attributes.QuantityShift}, ${Attributes.PriceShift})
+    VALUES (?,?, ?, ?,?, ?, ?, ?, ?, ?)`;
+    
 export const ActiveSessionRecordsTable = {
-    createTableQuery: createTableQuery
+    createTableQuery: createTableQuery,
+    selectAllQuery: selectAllQuery,
+    clearAllQuery: clearAllQuery,
+    /**
+     * attributes order : recordId, workerId, groupId
+     *  inventoryId, recordDate, stockQuantity,
+     *  recordQuantity, stockPrice, quantityShift,
+     *  priceShift
+     */
+    registerRecordQuery: registerRecordQuery,
 }
