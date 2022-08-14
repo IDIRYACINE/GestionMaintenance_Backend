@@ -3,7 +3,7 @@
 
 import { Authentication } from "../src/Authentication/Authentication";
 import { Request, Response } from "express";
-import { ApiMethods, ApisEnum, apisRootPath } from "../configs/Configs";
+import { AllowedHeaders, ApiMethods, ApisEnum, apisRootPath, Headers } from "../configs/Configs";
 
 const name = ApisEnum.loginAdmin;
 const version = 0;
@@ -30,9 +30,8 @@ const autherisedResponse = (res: Response): void => {
 }
 
 const authenticateAdmin = (req: Request, res: Response): void =>{
-    const accessToken = req.query.accessToken as string
-
-    Authentication.authenticateAccessToken(accessToken).then(validToken => {
+    const accessToken = req.headers[Headers.AccessToken] as string
+    Authentication.authenticateAdmin(accessToken).then(validToken => {
         if(validToken){
             autherisedResponse(res);
             return;

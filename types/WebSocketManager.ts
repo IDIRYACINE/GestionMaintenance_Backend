@@ -1,19 +1,15 @@
 
-    // import http from 'http'
-
     type Server = import('http').Server
+    type SocketEvents = import('./Enums').socketEvents
 
-    enum socketEvents {
-        onConnection = "connection",
-    }
-    
-    type broadcastMessage = (type:string , jsonMessage : Message) => void
+    type broadcastMessage = (type:SocketEvents , jsonMessage : Message) => void
 
     type connectToSocket = (connRequest: ConnectionRequest) => void
 
     type createSocket = (server : Server) => void
 
     interface Message {
+        type : SocketEvents
         data : any
     }
 

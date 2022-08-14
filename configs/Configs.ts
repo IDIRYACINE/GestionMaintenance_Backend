@@ -22,9 +22,9 @@ export enum ApisEnum{
     fetchProduct = "fetchProduct",
 }
 
-enum Headers {
-    ContentType = "Content-Type",
-    AccessToken = "Access-Token"
+export enum Headers {
+    ContentType = "content-type",
+    AccessToken = "access-token"
 }
 
 enum Methods {

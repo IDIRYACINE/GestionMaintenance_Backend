@@ -4,6 +4,7 @@
 import express from 'express';
 import path from 'node:path';
 import cors from 'cors'
+
 import { getAllFiles } from './Utilities/FileLoader';
 import { AllowedHeaders, AllowedMethods, ApiMethods, testDatabaseConnection } from '../configs/Configs';
 import { MariaDb } from './Databases/MariaDb/MariaDb';
@@ -31,6 +32,7 @@ const registerApis : RegisterApiCallback = (api)=>{
   })
   } 
 }
+
 
 getAllFiles(eventsPath,registerApis)
 

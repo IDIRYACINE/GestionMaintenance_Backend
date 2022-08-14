@@ -3,7 +3,7 @@
 import { ActiveSessionRecordsTable } from "../Common/ActiveSessionRecordsTable";
 import { SessionWorkersTable } from "../Common/SessionWorkersTable";
 import mariaDatabase from "mariadb";
-import { SessionTable } from "Databases/Common/SessionsTable";
+import { SessionTable } from "../Common/SessionsTable";
 
 let db : mariaDatabase.Connection; 
 

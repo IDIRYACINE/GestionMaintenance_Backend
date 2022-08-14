@@ -1,6 +1,6 @@
 /// <reference path="../../types/Authentication.ts" />
 
-import { MariaDb } from "Databases/MariaDb/MariaDb";
+import { MariaDb } from "../Databases/MariaDb/MariaDb";
 import { autherisedAdminToken, autherisedWorkerToken } from "../../configs/Configs";
 
 export const Authentication : Authentication = {
