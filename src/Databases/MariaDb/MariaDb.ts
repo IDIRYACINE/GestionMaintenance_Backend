@@ -37,10 +37,10 @@ export const MariaDb : Database = {
             session.endDate
         ]);
     },
-    closeSession: async function (session): Promise<void> {
+    closeSession: async function (sessionId): Promise<void> {
         db.execute(SessionTable.closeSessionQuery,[
-            session.active,
-            session.sessionId
+            false,
+            sessionId
         ]);
     
         const batchedQuery = `${SessionWorkersTable.clearAllQuery};
@@ -71,8 +71,8 @@ export const MariaDb : Database = {
             worker.username,
         ]);
     },
-    unregisterSessionWorker: async function (worker): Promise<void> {
-        db.execute(SessionWorkersTable.unregisterWorkerQuery, [worker.id]);
+    unregisterSessionWorker: async function (workerId): Promise<void> {
+        db.execute(SessionWorkersTable.unregisterWorkerQuery, [workerId]);
     },
     updateSessionWorker: async function (worker): Promise<void> {
         db.execute(SessionWorkersTable.updateWorkerQuery, [

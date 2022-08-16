@@ -1,11 +1,32 @@
 /// <reference path="../types/ApiInterface.ts" />
+
+import { database } from "Databases/Database";
 import { Request, Response } from "express";
 import { ApiMethods, ApisEnum, apisRootPath } from "../configs/Configs";
+import { HttpStatus } from "../configs/SpecialEnums";
 
 const name = ApisEnum.fetchActiveSessionRecords;
 const version = 0;
 const description = "fetch active session records";
 
+const fetchSessionRecords = (req: Request, res: Response) : void => {
+
+    database.fetchActiveSessionRecords().then(records =>{
+
+        if(records != undefined || records.length > 0){
+            res.status(HttpStatus.success)
+
+            const json : ActiveSessionRecordsRespone = {
+                data: records
+            }
+
+            res.json(json)
+            return;
+        }
+        
+    })
+
+}
 
 const FetchActiveSessionRecords : ApiInterface = {
     name: name,
@@ -16,9 +37,7 @@ const FetchActiveSessionRecords : ApiInterface = {
     onError: function (error: any): void {
         console.log(error);
     },
-    execute: function (req: Request, res: Response): void {
-        throw new Error("Function not implemented.");
-    }
+    execute: fetchSessionRecords
 }
 
 export default FetchActiveSessionRecords;

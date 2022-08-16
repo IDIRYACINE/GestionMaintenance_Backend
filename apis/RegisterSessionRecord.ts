@@ -4,24 +4,24 @@ import { Request, Response } from "express";
 import { ApiMethods, ApisEnum, apisRootPath } from "../configs/Configs";
 import { HttpStatus, OperationStatus } from "../configs/SpecialEnums";
 
-const name = ApisEnum.updateSessionWorker;
+const name = ApisEnum.registerSessionWorker;
 const version = 0;
-const description = "update session worker";
+const description = "register session worker";
 
-const updateSession = (req: Request, res: Response): void => {
-    const worker = req.body
+const registerRecord = (req: Request, res: Response): void => {
+    const record = req.body
     
-    database.updateSessionWorker(worker).then(_ => {
+    database.registerSessionRecord(record).then(_ => {
         res.status(HttpStatus.success)
 
-        const json : UpdateSessionWorkerResponse = {
+        const json : RegisterSessionWorkerResponse = {
             operationResult: OperationStatus.success
         }
         res.json(json)
     })
 }
 
-const UpdateSessionWorker : ApiInterface = {
+const RegisterSessionRecord : ApiInterface = {
     name: name,
     version: version,
     description: description,
@@ -30,7 +30,7 @@ const UpdateSessionWorker : ApiInterface = {
     onError: function (error: any): void {
         console.log(error);
     },
-    execute: updateSession
+    execute: registerRecord
 }
 
-export default UpdateSessionWorker;
+export default RegisterSessionRecord;

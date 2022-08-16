@@ -22,6 +22,11 @@ export enum ApisEnum{
     fetchProduct = "fetchProduct",
 }
 
+export enum QueriesEnum{
+    sessionId = "sessionId",
+    workerId = "workerId"
+}
+
 export enum Headers {
     ContentType = "content-type",
     AccessToken = "access-token"

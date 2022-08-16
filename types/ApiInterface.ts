@@ -1,4 +1,7 @@
 
+
+type OperationStatus = import("../configs/SpecialEnums").OperationStatus
+
 type ExpressResponse = import ("express").Response;
 
 type ExpressRequest = import ("express").Request;
@@ -17,3 +20,32 @@ interface ApiInterface{
 }
 
 type RegisterApiCallback = (event:ApiInterface) => void
+
+interface CloseSessionResponse {
+    operationResult : OperationStatus,
+    sessionId : string,
+}
+
+interface ActiveSessionRecordsRespone{
+    data : Array<SessionRecord>
+}
+
+interface OpenSessionResponse{
+    operationResult : OperationStatus,
+}
+
+interface RegisterSessionWorkerResponse{
+    operationResult : OperationStatus,
+}
+
+interface UnregisterSessionWorkerResponse{
+    operationResult : OperationStatus,
+}
+
+interface UpdateSessionWorkerResponse{
+    operationResult : OperationStatus,
+}
+
+interface RegisterSessionRecord{
+    operationResult : OperationStatus,
+}

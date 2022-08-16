@@ -1,11 +1,28 @@
 /// <reference path="../types/ApiInterface.ts" />
+
+import { database } from "Databases/Database";
 import { Request, Response } from "express";
-import { ApiMethods, ApisEnum, apisRootPath } from "../configs/Configs";
+import { ApiMethods, ApisEnum, apisRootPath, QueriesEnum } from "../configs/Configs";
+import { OperationStatus } from "../configs/SpecialEnums";
 
 const name = ApisEnum.closeSession;
 const version = 0;
 const description = "close session";
 
+const closeSession = (req: Request, res: Response) : void =>{
+    const sessionId = req.query[QueriesEnum.sessionId] as string
+
+    database.closeSession(sessionId).then(_ => {
+
+        const json : CloseSessionResponse = {
+            operationResult: OperationStatus.success,
+            sessionId: sessionId
+        }
+
+        res.json(json)
+    })
+
+}
 
 const CloseSession : ApiInterface = {
     name: name,
@@ -16,9 +33,7 @@ const CloseSession : ApiInterface = {
     onError: function (error: any): void {
         console.log(error);
     },
-    execute: function (req: Request, res: Response): void {
-        throw new Error("Function not implemented.");
-    }
+    execute: closeSession
 }
 
 export default CloseSession;

@@ -44,11 +44,11 @@ interface Database {
     connect(parameters : ConnectionParameters): Promise<void>,
     disconnect(): Promise<void>,
     openSession(session:Session) : Promise<void>,
-    closeSession(session:Session) : Promise<void>,
+    closeSession(sessionId : string) : Promise<void>,
     fetchActiveSession() : Promise<Session>,
     fetchActiveSessionRecords() : Promise<Array<SessionRecord>>,
     registerSessionWorker(worker : SessionWorker) : Promise<void>,
-    unregisterSessionWorker(worker : SessionWorker) : Promise<void>,
+    unregisterSessionWorker(workerId : string) : Promise<void>,
     updateSessionWorker(worker : SessionWorker) : Promise<void>,
     registerSessionRecord(record : SessionRecord) : Promise<void>,
     fetchSessionWorker(phone : string, password : string) : Promise<SessionWorker>

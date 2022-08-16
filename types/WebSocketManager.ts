@@ -1,6 +1,6 @@
 
     type Server = import('http').Server
-    type SocketEvents = import('./Enums').socketEvents
+    type SocketEvents = import('../configs/SpecialEnums').socketEvents
 
     type broadcastMessage = (type:SocketEvents , jsonMessage : Message) => void
 

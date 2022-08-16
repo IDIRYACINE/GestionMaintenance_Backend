@@ -3,9 +3,9 @@
 import { Authentication } from "../Authentication/Authentication"
 import { WebSocketServer } from 'ws';
 
-import { AllowedHeaders, AllowedOrigins, Headers } from '../../configs/Configs'
-import { socketEvents } from "../../types/Enums"
+import { AllowedOrigins, Headers } from '../../configs/Configs'
 import { IncomingMessage, Server } from "http";
+import { socketEvents } from "../../configs/SpecialEnums";
 
 let wss : WebSocketServer
 

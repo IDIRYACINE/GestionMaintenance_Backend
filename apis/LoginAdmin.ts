@@ -3,7 +3,7 @@
 
 import { Authentication } from "../src/Authentication/Authentication";
 import { Request, Response } from "express";
-import { AllowedHeaders, ApiMethods, ApisEnum, apisRootPath, Headers } from "../configs/Configs";
+import { ApiMethods, ApisEnum, apisRootPath, Headers } from "../configs/Configs";
 
 const name = ApisEnum.loginAdmin;
 const version = 0;
