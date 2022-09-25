@@ -20,9 +20,11 @@ export const MariaDb : Database = {
             user: parameters.user,
             password: parameters.password,
             database: parameters.database,
+            connectTimeout : parameters.connectTimeout
         });
 
         createTablesIfNotExists();
+       
     },
 
     disconnect: async function (): Promise<void> {

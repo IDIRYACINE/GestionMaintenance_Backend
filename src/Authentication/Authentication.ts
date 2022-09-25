@@ -22,6 +22,7 @@ export const Authentication : Authentication = {
         })
     },
     authenticateAccessToken: async function (accessToken): Promise<boolean>{
+        console.log(accessToken)
         return accessToken === autherisedWorkerToken;
     }
 }

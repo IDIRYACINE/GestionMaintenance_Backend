@@ -1,6 +1,6 @@
 /// <reference path="../types/ApiInterface.ts" />
 
-import { database } from "Databases/Database";
+import { database } from "../src/Databases/Database";
 import { Request, Response } from "express";
 import { ApiMethods, ApisEnum, apisRootPath, QueriesEnum } from "../configs/Configs";
 import { OperationStatus } from "../configs/SpecialEnums";

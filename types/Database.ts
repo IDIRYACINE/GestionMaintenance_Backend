@@ -38,6 +38,7 @@ interface ConnectionParameters{
     user: string,
     password: string,
     database: string,
+    connectTimeout? : number,
 }
 
 interface Database {

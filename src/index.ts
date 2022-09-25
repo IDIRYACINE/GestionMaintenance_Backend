@@ -33,12 +33,11 @@ const registerApis : RegisterApiCallback = (api)=>{
   } 
 }
 
-
 getAllFiles(eventsPath,registerApis)
 
 MariaDb.connect(testDatabaseConnection);
 
-const httpServer = app.listen(process.env.PORT || 3000)
+const httpServer = app.listen(process.env.PORT || 3050)
 
 websocketManager.createSocket(httpServer);
 

@@ -11,8 +11,8 @@ let wss : WebSocketServer
 
 const isOriginAllowed = (origin: string) : boolean => {
     let allowed = false;
-
     AllowedOrigins.forEach(allowedOrigin => {
+        
         if (allowedOrigin === origin) {
             allowed = true;
         }
@@ -22,11 +22,13 @@ const isOriginAllowed = (origin: string) : boolean => {
 }
 
 const validatekHandshake = async (handshake: IncomingMessage ) : Promise<boolean> =>  {
-    const allowOrigin = isOriginAllowed(handshake.headers.origin)
+    const allowOrigin = isOriginAllowed(handshake.headers.host)
     if (!allowOrigin) {
+        console.log("Origin not allowed")
         return false
     }
-    return await Authentication.authenticateAccessToken(handshake.headers[Headers.AccessToken] as string)
+    const headerAuthToken = handshake.headers[Headers.AccessToken] as string
+    return await Authentication.authenticateAdmin(headerAuthToken)
 }
 
 const registerSocketEvents = () =>{
@@ -34,11 +36,11 @@ const registerSocketEvents = () =>{
         const message = {
             data : "Autherised"
         }
-       wss.emit(socketEvents.onConnection , message)
+        socket.emit(socketEvents.onConnection , message)
     })
 
     wss.on(socketEvents.connected , (message: any) => {
-        
+        console.log(message)
     })
 
 }
@@ -53,13 +55,14 @@ export const websocketManager : WebsocketManager = {
             return;
         }
 
-        wss = new WebSocketServer({ server });
+        wss = new WebSocketServer({ noServer: true });
 
         server.on('upgrade', async function upgrade(request, socket, head) {
 
             const allowConnection = await validatekHandshake(request)
 
             if (!allowConnection) {
+                console.log("Connection not allowed")
                 socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
                 socket.destroy();
                 return;
