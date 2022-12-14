@@ -10,6 +10,7 @@ const description = "open session";
 
 const openSession = (req: Request, res: Response): void => {
     const session = req.body
+    console.log(session)
 
     database.openSession(session).then(_ => {
         res.status(HttpStatus.success)

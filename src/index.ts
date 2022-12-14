@@ -4,13 +4,17 @@
 import express from 'express';
 import path from 'node:path';
 import cors from 'cors'
+import bodyParser from 'body-parser';
 
 import { getAllFiles } from './Utilities/FileLoader';
 import { AllowedHeaders, AllowedMethods, ApiMethods, testDatabaseConnection } from '../configs/Configs';
 import { MariaDb } from './Databases/MariaDb/MariaDb';
 import { websocketManager } from './WebSocketManager/WebSocketManager';
 
+
 const app = express();
+
+app.use(bodyParser.json());
 
 app.use(cors({
   origin :"*",
@@ -32,6 +36,12 @@ const registerApis : RegisterApiCallback = (api)=>{
   })
   } 
 }
+
+app.post('/api/testPost', (req, res) => {
+  console.log(req.body)
+  console.log(req.headers)
+  res.send(req.body)
+})
 
 getAllFiles(eventsPath,registerApis)
 
