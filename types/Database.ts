@@ -28,9 +28,9 @@ interface SessionRecord{
 
 interface Session{
     sessionId : number,
-    startDate : Date,
-    endDate : Date,
-    active : boolean,
+    sessionStartDate : Date,
+    sessionEndDate : Date,
+    isActive : boolean,
 }
 
 interface ConnectionParameters{

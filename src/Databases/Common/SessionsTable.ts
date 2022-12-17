@@ -24,8 +24,8 @@ const selectActiveSession = `SELECT * FROM ${tableName} WHERE
     ${Attributes.Active} = ? LIMIT 1` ;
 
 const openSessionQuery = `INSERT INTO ${tableName} (
-    ${Attributes.SessionId}, ${Attributes.Active}, ${Attributes.StartDate}, ${Attributes.EndDate})
-    VALUES (?, ?, ?, ?)`;
+    ${Attributes.SessionId}, ${Attributes.Active}, ${Attributes.StartDate})
+    VALUES (?, ?, ?)`;
 
 const closeSession = `UPDATE ${tableName} SET ${Attributes.Active} = ? 
     WHERE ${Attributes.SessionId} = ?`;

@@ -34,9 +34,8 @@ export const MariaDb : Database = {
     openSession: async function (session): Promise<void> {
         db.execute(SessionTable.openSessionQuery,[
             session.sessionId,
-            session.active,
-            session.startDate,
-            session.endDate
+            session.isActive,
+            session.sessionStartDate
         ]);
     },
     closeSession: async function (sessionId): Promise<void> {
