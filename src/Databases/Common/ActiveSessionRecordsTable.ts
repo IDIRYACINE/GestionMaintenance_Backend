@@ -40,7 +40,7 @@ const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
     ${Attributes.QuantityShift} ${AttributesTypes.QuantityShift},
     ${Attributes.PriceShift} ${AttributesTypes.PriceShift})`;
 
-const selectAllQuery = `SELECT * FROM ${tableName} LIMIT ? OFFSET ?`;
+const selectAllQuery = `SELECT * FROM ${tableName}`;
 
 const clearAllQuery = `TRUNCATE TABLE ${tableName}`;
 

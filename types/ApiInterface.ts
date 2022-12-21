@@ -27,7 +27,7 @@ interface CloseSessionResponse {
 }
 
 interface ActiveSessionRecordsRespone{
-    data : Array<SessionRecord>
+    records : Array<SessionRecord>
 }
 
 interface OpenSessionResponse{
@@ -48,4 +48,12 @@ interface UpdateSessionWorkerResponse{
 
 interface RegisterSessionRecord{
     operationResult : OperationStatus,
+}
+
+interface ActiveSessionResponse{
+    operationResult : OperationStatus,
+    sessionId : string,
+    sessionStartDate : Date,
+    sessionEndDate : Date,
+    sessionActive : boolean,
 }

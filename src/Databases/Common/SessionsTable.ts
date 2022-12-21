@@ -8,7 +8,7 @@ enum Attributes{
 }
 
 enum AttributesTypes{
-    SessionId = 'INTEGER PRIMARY KEY',
+    SessionId = 'TIMESTAMP PRIMARY KEY',
     Active = 'BOOLEAN',
     StartDate = 'DATE',
     EndDate = 'DATE',
@@ -20,8 +20,12 @@ const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
     ${Attributes.StartDate} ${AttributesTypes.StartDate},
     ${Attributes.EndDate} ${AttributesTypes.EndDate})`;
 
-const selectActiveSession = `SELECT * FROM ${tableName} WHERE 
-    ${Attributes.Active} = ? LIMIT 1` ;
+const selectActiveSession = ` Select ${Attributes.Active},${Attributes.StartDate} ,
+    ${Attributes.EndDate} , ${Attributes.SessionId}
+    from ${tableName} 
+    where ${Attributes.Active} = true  
+    group by ${Attributes.SessionId} 
+    having ${Attributes.SessionId} = max(${Attributes.SessionId});`;
 
 const openSessionQuery = `INSERT INTO ${tableName} (
     ${Attributes.SessionId}, ${Attributes.Active}, ${Attributes.StartDate})

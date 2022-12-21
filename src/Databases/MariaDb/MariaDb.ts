@@ -4,6 +4,7 @@ import { ActiveSessionRecordsTable } from "../Common/ActiveSessionRecordsTable";
 import { SessionWorkersTable } from "../Common/SessionWorkersTable";
 import mariaDatabase from "mariadb";
 import { SessionTable } from "../Common/SessionsTable";
+import moment from "moment";
 
 let db : mariaDatabase.Connection; 
 
@@ -55,7 +56,14 @@ export const MariaDb : Database = {
             if (rows.length === 0) {
                 return null;
             }
-            return rows[0];
+            const session = rows[0]
+            const id = moment(session.SessionId).format("YYYY-MM-DD HH:mm:ss.SSSSSSSSS")
+            return {
+                sessionId: id,
+                sessionStartDate: session.StartDate,
+                sessionEndDate: session.EndDate,
+                isActive: session.Active
+            };
         })
     },
 

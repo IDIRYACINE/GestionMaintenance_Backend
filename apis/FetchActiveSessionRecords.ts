@@ -12,12 +12,12 @@ const description = "fetch active session records";
 const fetchSessionRecords = (req: Request, res: Response) : void => {
 
     database.fetchActiveSessionRecords().then(records =>{
-
+        
         if(records != undefined || records.length > 0){
             res.status(HttpStatus.success)
 
             const json : ActiveSessionRecordsRespone = {
-                data: records
+                records: records
             }
 
             res.json(json)

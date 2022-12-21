@@ -18,7 +18,7 @@ interface SessionRecord{
     workerId : number,
     groupId : number,
     inventoryId : number,
-    recordDate : Date,
+    recordDate : string,
     stockQuantity : number,
     recordQuantity : number,
     stockPrice : number,
@@ -27,7 +27,7 @@ interface SessionRecord{
 }
 
 interface Session{
-    sessionId : number,
+    sessionId : string,
     sessionStartDate : Date,
     sessionEndDate : Date,
     isActive : boolean,
