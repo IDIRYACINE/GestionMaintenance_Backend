@@ -40,14 +40,13 @@ export const MariaDb : Database = {
         ]);
     },
     closeSession: async function (sessionId): Promise<void> {
-        db.execute(SessionTable.closeSessionQuery,[
-            false,
-            sessionId
-        ]);
     
-        const batchedQuery = `${SessionWorkersTable.clearAllQuery};
-            ${ActiveSessionRecordsTable.clearAllQuery}`;
-        db.execute(batchedQuery)
+       
+        db.execute(SessionWorkersTable.clearAllQuery)
+        db.execute(ActiveSessionRecordsTable.clearAllQuery)
+        db.execute(SessionTable.clearAllQuery)
+
+
     },
 
     fetchActiveSession: async function (): Promise<Session> {

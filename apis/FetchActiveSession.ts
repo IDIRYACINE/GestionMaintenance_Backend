@@ -12,6 +12,14 @@ const description = "fetches active session";
 const fetchActiveSession = (req: Request, res: Response) : void => {
 
     database.fetchActiveSession().then( result => {
+        
+        if (result == undefined || result == null) {
+            res.json({
+                operationResult: OperationStatus.fail,
+            })
+            return 
+
+        }
 
         const json : ActiveSessionResponse = {
             operationResult: OperationStatus.success,

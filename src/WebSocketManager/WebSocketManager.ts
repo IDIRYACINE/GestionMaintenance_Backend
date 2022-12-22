@@ -1,11 +1,12 @@
-/// <reference path="../../types/WebSocketManager.ts" />
+///<reference path="../../types/WebSocketManager.ts" />
 
 import { Authentication } from "../Authentication/Authentication"
-import { WebSocketServer } from 'ws';
+import { WebSocketServer,WebSocket } from 'ws';
 
 import { AllowedOrigins, Headers } from '../../configs/Configs'
 import { IncomingMessage, Server } from "http";
 import { socketEvents } from "../../configs/SpecialEnums";
+import { onProductDetaillsCallback } from "../../apis/SubmitRecord";
 
 let wss : WebSocketServer
 
@@ -31,7 +32,7 @@ const validatekHandshake = async (handshake: IncomingMessage ) : Promise<boolean
     return await Authentication.authenticateAdmin(headerAuthToken)
 }
 
-const registerSocketEvents = () =>{
+const registerSocketEvents = () => {
     wss.on(socketEvents.onConnection , (socket: any) => {
         const message = {
             data : "Autherised"
@@ -43,9 +44,13 @@ const registerSocketEvents = () =>{
         console.log(message)
     })
 
+    wss.on(socketEvents.productDetaills , (message: any) => {
+        onProductDetaillsCallback(message.requestTimestamp , message)
+    })
+
 }
 
-export const websocketManager : WebsocketManager = {
+const websocketManager : WebsocketManager = {
     connectToSocket: function (connRequest: ConnectionRequest): void {
         throw new Error("Method not implemented.");
     },
@@ -78,10 +83,18 @@ export const websocketManager : WebsocketManager = {
 
     },
     broadcastMessage: function (type: socketEvents, jsonMessage: Message): void {
+
+        jsonMessage.data = JSON.stringify(jsonMessage.data)
+
+        const message = JSON.stringify(jsonMessage)
+
         wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {
-                client.send(jsonMessage);
+                client.send(message);
             }
         });
     }
 }
+
+
+export {websocketManager}

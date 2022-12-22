@@ -15,5 +15,8 @@ export enum HttpStatus {
 export enum socketEvents {
     onConnection = "connection",
     connected = "connected",
-    activeSessionRecords = "onActiveSessionRecords"
+    activeSessionRecords = "onActiveSessionRecords",
+    sessionRecord = "onSessionRecord",
+    productDetaills = "onProductDetails",
+    requestProductDetaills = "requestProductDetails",
 }

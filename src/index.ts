@@ -25,7 +25,7 @@ app.use(cors({
 const eventsPath = path.join(process.cwd(), 'apis');
 
 const registerApis : RegisterApiCallback = (api)=>{
-	if (api.type === ApiMethods.Get) {
+  if (api.type === ApiMethods.Get) {
     app.get(api.url, (req, res) => {
         api.execute(req, res);
     })

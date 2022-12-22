@@ -57,3 +57,21 @@ interface ActiveSessionResponse{
     sessionEndDate : Date,
     sessionActive : boolean,
 }
+
+interface ProductDetaillsResponse{
+    operationResult : OperationStatus,
+    barcode:number,
+    itemName: string ,
+    locationName : string ,
+    locationId : number , 
+}
+
+interface ProductDetaillsRequest{
+    barcode : number,
+    workerId : number,
+    workerName : string,
+    scannedDate : string,
+    requestTimestamp : string,
+    groupId : number,
+    departmentId : number,
+}

@@ -1,6 +1,6 @@
 /// <reference path="../types/Database.ts" />
 
-export const apisRootPath = "/v/";
+export const apisRootPath = "/v";
 
 export enum ApiMethods {
     Get,
@@ -20,6 +20,7 @@ export enum ApisEnum{
     fetchSessionRecords = "fetchSessionRecords",
     postSessionRecords = "postSessionRecords",
     fetchProduct = "fetchProduct",
+    submitRecord = "submitRecord",
 }
 
 export enum QueriesEnum{
