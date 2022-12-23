@@ -37,16 +37,19 @@ const registerSocketEvents = () => {
         const message = {
             data : "Autherised"
         }
+
+        socket.on(socketEvents.message, (message : any) => {
+            if(typeof(message) !== "string" || typeof(message) !== "object")
+                message = JSON.parse(message.toString())
+                
+            if(message.event === socketEvents.productDetaills)
+                onProductDetaillsCallback(message.requestTimestamp , message)
+          });
+
         socket.emit(socketEvents.onConnection , message)
     })
 
-    wss.on(socketEvents.connected , (message: any) => {
-        console.log(message)
-    })
 
-    wss.on(socketEvents.productDetaills , (message: any) => {
-        onProductDetaillsCallback(message.requestTimestamp , message)
-    })
 
 }
 

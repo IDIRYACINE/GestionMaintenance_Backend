@@ -19,4 +19,5 @@ export enum socketEvents {
     sessionRecord = "onSessionRecord",
     productDetaills = "onProductDetails",
     requestProductDetaills = "requestProductDetails",
+    message = "message",
 }

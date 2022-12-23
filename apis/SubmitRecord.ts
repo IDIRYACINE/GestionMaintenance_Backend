@@ -16,17 +16,17 @@ let requestMap = {}
 
 const submitRecord = (req: Request, res: Response) : void => {
 
-    const timestamp = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss.SSSSSSSSS")
+    const rawTimestamp = Date.now()
+    const timestamp = moment(rawTimestamp).format("YYYY-MM-DD HH:mm:ss.SSSSSSSSS")
 
-    //TODO fix missing
-    const data : ProductDetaillsRequest ={
+    const data : ProductDetaillsRequest = {
         barcode: req.body.barcode,
         workerId: req.body.workerId,
         workerName: req.body.workerName,
         scannedDate: timestamp,
         requestTimestamp: timestamp,
-        groupId: 0,
-        departmentId: 0
+        groupId: req.body.groupId,
+        departmentId: req.body.departementId
     }
     
     const message : Message = {
@@ -34,14 +34,15 @@ const submitRecord = (req: Request, res: Response) : void => {
         data : data
     }
 
-    requestMap[data.requestTimestamp] = res
+    requestMap[rawTimestamp] = res
+
 
     websocketManager.broadcastMessage(socketEvents.sessionRecord,message)
     
 
 }
 
-const onProductDetaillsCallback = (resId : number , data : any) => {
+const onProductDetaillsCallback = (resId : string , data : any) => {
 
     const json : ProductDetaillsResponse = {
         operationResult: OperationStatus.success,
@@ -51,9 +52,13 @@ const onProductDetaillsCallback = (resId : number , data : any) => {
         locationId: data.locationId
     }
 
-    const res : Response = requestMap[resId]
-    delete requestMap[resId]
+    const key = Date.parse(resId)
+    const res : Response = requestMap[key]
+
     res.json(json)
+
+    delete requestMap[key]
+
 }
 
 const SubmitSessionRecord : ApiInterface = {
