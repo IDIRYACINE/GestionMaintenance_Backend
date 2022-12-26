@@ -27,12 +27,12 @@ const selecteWorkerQuery = `SELECT * FROM ${tableName} WHERE
     ${Attributes.Phone} = ? AND ${Attributes.Password} = ?`;
 
 const registerWorkerQuery = `INSERT INTO ${tableName} (
-    ${Attributes.WorkerId} , ${Attributes.GroupId},${Attributes.Phone},
+    ${Attributes.WorkerId} , ${Attributes.GroupId},
     ${Attributes.Password}, ${Attributes.Username})
-    VALUES (?, ?, ?,?, ?)`;
+    VALUES (?, ?, ?, ?)`;
 
 const upadteWorkerQuery = `UPDATE ${tableName} SET ${Attributes.Password} = ? ,
-    ${Attributes.Username} = ?, ${Attributes.Phone} = ?, ${Attributes.GroupId} = ?,
+    ${Attributes.Username} = ?, ${Attributes.GroupId} = ?,
     WHERE ${Attributes.WorkerId} = ?`;
 
 const unregisterWorkerQuery = `DELETE FROM ${tableName} WHERE ${Attributes.WorkerId} = ?`;

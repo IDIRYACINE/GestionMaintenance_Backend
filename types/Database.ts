@@ -5,7 +5,7 @@ interface ProductFetchQuery{
 }
 
 interface SessionWorker{
-    id : number,
+    workerId : number,
     phone? : string,
     password? : string,
     groupId? : number,

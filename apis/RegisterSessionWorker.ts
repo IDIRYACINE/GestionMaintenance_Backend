@@ -10,7 +10,7 @@ const description = "register session worker";
 
 const registerWorker = (req: Request, res: Response): void => {
     const worker = req.body
-
+    
     database.registerSessionWorker(worker).then(_ => {
         res.status(HttpStatus.success)
 

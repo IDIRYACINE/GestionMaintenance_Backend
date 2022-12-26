@@ -72,9 +72,8 @@ export const MariaDb : Database = {
 
     registerSessionWorker: async function (worker): Promise<void> {
         db.execute(SessionWorkersTable.registerWorkerQuery, [
-            worker.id,
+            worker.workerId,
             worker.groupId,
-            worker.phone,
             worker.password,
             worker.username,
         ]);
@@ -86,9 +85,8 @@ export const MariaDb : Database = {
         db.execute(SessionWorkersTable.updateWorkerQuery, [
             worker.password,
             worker.username,
-            worker.phone,
             worker.groupId,
-            worker.id,
+            worker.workerId,
         ]);
     },
     registerSessionRecord: async function (record): Promise<void> {

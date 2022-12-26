@@ -16,7 +16,7 @@ export const Authentication : Authentication = {
             }
             return {
                 isAutherised: true,
-                workerId: sessionWorker.id,
+                workerId: sessionWorker.workerId,
                 accessToken: autherisedWorkerToken
             }
         })

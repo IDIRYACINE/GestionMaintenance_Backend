@@ -4,9 +4,9 @@ import { Request, Response } from "express";
 import { ApiMethods, ApisEnum, apisRootPath } from "../configs/Configs";
 import { HttpStatus, OperationStatus } from "../configs/SpecialEnums";
 
-const name = ApisEnum.registerSessionWorker;
+const name = ApisEnum.registerSessionRecord;
 const version = 0;
-const description = "register session worker";
+const description = "register session record";
 
 const registerRecord = (req: Request, res: Response): void => {
     const record = req.body
