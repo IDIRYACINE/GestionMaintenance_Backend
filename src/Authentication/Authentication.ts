@@ -7,16 +7,20 @@ export const Authentication : Authentication = {
     authenticateAdmin: async function (adminToken): Promise<boolean> {
         return adminToken === autherisedAdminToken;
     },
-    authenticateUser: async function (phone, password): Promise<AutherisedLoginResponse> {
-        return MariaDb.fetchSessionWorker(phone, password).then(sessionWorker => {
+    authenticateUser: async function (username, password): Promise<AutherisedLoginResponse> {
+        return MariaDb.fetchSessionWorker(username, password).then(sessionWorker => {
+            console.log(sessionWorker)
+
             if(sessionWorker === null){
                 return {
-                    isAutherised: false
+                    authenticated: false,
+                    errorOccured: true,
                 }
             }
             return {
-                isAutherised: true,
-                workerId: sessionWorker.workerId,
+                authenticated: true,
+                workerId: sessionWorker.workerId, // TODO : fix this to be workerId
+                departementId: sessionWorker.departementId,
                 accessToken: autherisedWorkerToken
             }
         })

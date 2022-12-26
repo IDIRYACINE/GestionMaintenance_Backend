@@ -16,7 +16,7 @@ export enum ApisEnum{
     registerSessionWorker = "registerSessionWorker",
     unregisterSessionWorker = "unregisterSessionWorker",
     updateSessionWorker = "updateSessionWorker",
-    loginUser = "loginUser",
+    loginWorker = "loginWorker",
     fetchSessionRecords = "fetchSessionRecords",
     postSessionRecords = "postSessionRecords",
     fetchProduct = "fetchProduct",

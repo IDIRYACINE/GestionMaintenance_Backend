@@ -24,7 +24,7 @@ const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
     ${Attributes.Username} ${AttributesTypes.Username})`;
 
 const selecteWorkerQuery = `SELECT * FROM ${tableName} WHERE 
-    ${Attributes.Phone} = ? AND ${Attributes.Password} = ?`;
+    ${Attributes.Username} = ? AND ${Attributes.Password} = ?`;
 
 const registerWorkerQuery = `INSERT INTO ${tableName} (
     ${Attributes.WorkerId} , ${Attributes.GroupId},

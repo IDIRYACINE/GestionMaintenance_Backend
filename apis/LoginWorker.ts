@@ -3,7 +3,7 @@ import { Authentication } from "../src/Authentication/Authentication";
 import { Request, Response } from "express";
 import { ApiMethods, ApisEnum, apisRootPath } from "../configs/Configs";
 
-const name = ApisEnum.loginUser;
+const name = ApisEnum.loginWorker;
 const version = 0;
 const description = "login user";
 
@@ -12,7 +12,7 @@ const loginWorker = async (req: Request, res: Response) => {
     const username = req.query.username as string
 
     Authentication.authenticateUser(username, password).then(credential => {
-        if(credential.isAutherised){
+        if(credential.authenticated){
             autherisedResponse(res,credential);
             return;
         }
@@ -29,7 +29,7 @@ const unautherisedResponse = (res: Response): void => {
     res.status(401)
 
     const json : AutherisedLoginResponse = {
-        isAutherised: false
+        authenticated: false
     }
 
     res.json(json)

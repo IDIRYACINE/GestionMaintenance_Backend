@@ -10,6 +10,7 @@ interface SessionWorker{
     password? : string,
     groupId? : number,
     username? : string,
+    departementId? : number,
 }
 
 interface SessionRecord{

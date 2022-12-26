@@ -12,7 +12,7 @@ const description = "login admin";
 const unautherisedResponse = (res: Response): void => {
     res.status(401)
 
-    const json : AutherisedLoginResponse = {
+    const json : AutheriseAdminLoginResponse = {
         isAutherised: false
     }
 
@@ -22,7 +22,7 @@ const unautherisedResponse = (res: Response): void => {
 const autherisedResponse = (res: Response): void => {
     res.status(200)
 
-    const json : AutherisedLoginResponse = {
+    const json : AutheriseAdminLoginResponse = {
         isAutherised: true
     }
 

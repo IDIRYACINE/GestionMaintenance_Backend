@@ -3,11 +3,16 @@
 interface Authentication {
     authenticateAccessToken(accessToken: string): Promise<boolean>;
     authenticateAdmin(adminToken: string): Promise<boolean>;
-    authenticateUser(phone: string, password: string): Promise<AutherisedLoginResponse>;
+    authenticateUser(username: string, password: string): Promise<AutherisedLoginResponse>;
 }
 
 interface AutherisedLoginResponse {
-    isAutherised: boolean,
-    workerId? : number,
-    accessToken?: string
+    authenticated: boolean,
+    workerId?: number,
+    workerName?: string,
+    departementId?: number,
+}
+
+interface AutheriseAdminLoginResponse {
+    isAutherised: boolean
 }
