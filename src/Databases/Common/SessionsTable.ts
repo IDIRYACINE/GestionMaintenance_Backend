@@ -1,4 +1,4 @@
-const tableName = 'sessions_history';
+const tableName = 'Sessions';
 
 enum Attributes{
     SessionId = 'SessionId',
@@ -60,5 +60,6 @@ export const SessionTable = {
      */
     closeSessionQuery : closeSession,
 
-    clearAllQuery : clearAllQuery
+    clearAllQuery : clearAllQuery,
+    tableName : tableName,
 }

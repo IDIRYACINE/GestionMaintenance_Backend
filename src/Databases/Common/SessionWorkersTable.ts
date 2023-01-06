@@ -71,5 +71,7 @@ export const SessionWorkersTable = {
      */
     unregisterWorkerQuery : unregisterWorkerQuery,
 
-    clearAllQuery : clearAllQuery
+    clearAllQuery : clearAllQuery,
+    tableName : tableName,
+
 }

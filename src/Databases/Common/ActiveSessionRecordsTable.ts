@@ -1,7 +1,7 @@
 
 const tableName = 'session_records';
 
-enum Attributes{
+enum Attributes {
     RecordId = 'RecordId',
     SessionId = 'SessionId',
     WorkerId = 'WorkerId',
@@ -62,4 +62,5 @@ export const ActiveSessionRecordsTable = {
      *  priceShift
      */
     registerRecordQuery: registerRecordQuery,
+    tableName: tableName,
 }

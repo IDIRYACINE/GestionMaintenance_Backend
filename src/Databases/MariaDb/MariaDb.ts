@@ -116,7 +116,7 @@ export const MariaDb : Database = {
 
 
 async function createTablesIfNotExists(): Promise<void> {
-    const tablesQueryRows = await db.query("SHOW TABLES");
+    const tablesQueryRows = await db.query(`Select * from information_schema.Tables where table_Name='${ActiveSessionRecordsTable.tableName}'`);
     if (tablesQueryRows.length === 0) {
         db.execute(ActiveSessionRecordsTable.createTableQuery);
         db.execute(SessionWorkersTable.createTableQuery);
