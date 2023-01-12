@@ -1,8 +1,14 @@
 
-const tableName = 'SessionWorkers';
+const sessionWorkerTable = 'SessionWorkers';
+const workersTable = 'Workers';
 
 
-enum Attributes{
+enum WAttributes{
+    WorkerId = 'WorkerId',
+    WorkerName = 'WorkerName',
+}
+
+enum SWAttributes{
     WorkerId = 'WorkerId',
     GroupId = 'GroupId',
     Password = 'Password',
@@ -10,7 +16,7 @@ enum Attributes{
     SupervisorId = 'SupervisorId'
 }
 
-enum AttributesTypes{
+enum SWAttributesTypes{
     WorkerId = 'INTEGER PRIMARY KEY',
     GroupId = 'INTEGER',
     Password = 'TEXT',
@@ -18,31 +24,35 @@ enum AttributesTypes{
     SupervisorId = 'INTEGER'
 }
 
-const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
-    ${Attributes.WorkerId} ${AttributesTypes.WorkerId} ,
-    ${Attributes.GroupId}  ${AttributesTypes.GroupId},
-    ${Attributes.Password} ${AttributesTypes.Password},
-    ${Attributes.SupervisorId} ${AttributesTypes.SupervisorId},
-    ${Attributes.Username} ${AttributesTypes.Username})`;
+const createTableQuery = `CREATE TABLE IF NOT EXISTS ${sessionWorkerTable} (
+    ${SWAttributes.WorkerId} ${SWAttributesTypes.WorkerId} ,
+    ${SWAttributes.GroupId}  ${SWAttributesTypes.GroupId},
+    ${SWAttributes.Password} ${SWAttributesTypes.Password},
+    ${SWAttributes.SupervisorId} ${SWAttributesTypes.SupervisorId},
+    ${SWAttributes.Username} ${SWAttributesTypes.Username})`;
 
-const selecteWorkerQuery = `SELECT * FROM ${tableName} WHERE 
-    ${Attributes.Username} = ? AND ${Attributes.Password} = ?`;
+const selectWorkerQuery = `SELECT ${sessionWorkerTable}.${SWAttributes.GroupId} AS groupId,
+    ${workersTable}.${WAttributes.WorkerName} AS workerName,
+    ${sessionWorkerTable}.${SWAttributes.WorkerId} AS workerId,
+    ${sessionWorkerTable}.${SWAttributes.Username} AS username 
+    FROM ${sessionWorkerTable},${workersTable} 
+    WHERE ${SWAttributes.Username} = ? AND ${SWAttributes.Password} = ?`;
 
 
-const registerWorkerQuery = `INSERT INTO ${tableName} (
-    ${Attributes.WorkerId} , ${Attributes.GroupId},
-    ${Attributes.Password}, ${Attributes.Username})
+const registerWorkerQuery = `INSERT INTO ${sessionWorkerTable} (
+    ${SWAttributes.WorkerId} , ${SWAttributes.GroupId},
+    ${SWAttributes.Password}, ${SWAttributes.Username})
     VALUES (?, ?, ?, ?)`;
 
-const upadteWorkerQuery = `UPDATE ${tableName} SET ${Attributes.Password} = ? ,
-    ${Attributes.Username} = ?, ${Attributes.GroupId} = ?,
-    WHERE ${Attributes.WorkerId} = ?`;
+const upadteWorkerQuery = `UPDATE ${sessionWorkerTable} SET ${SWAttributes.Password} = ? ,
+    ${SWAttributes.Username} = ?, ${SWAttributes.GroupId} = ?,
+    WHERE ${SWAttributes.WorkerId} = ?`;
 
-const unregisterWorkerQuery = `DELETE FROM ${tableName} WHERE ${Attributes.WorkerId} = ?`;
+const unregisterWorkerQuery = `DELETE FROM ${sessionWorkerTable} WHERE ${SWAttributes.WorkerId} = ?`;
 
-const selectAllQuery = `SELECT * FROM ${tableName} LIMIT ? OFFSET ?`;
+const selectAllQuery = `SELECT * FROM ${sessionWorkerTable} LIMIT ? OFFSET ?`;
 
-const clearAllQuery = `TRUNCATE TABLE ${tableName}`;
+const clearAllQuery = `TRUNCATE TABLE ${sessionWorkerTable}`;
 
 export const SessionWorkersTable = {
 
@@ -52,7 +62,7 @@ export const SessionWorkersTable = {
      * otherwise return null
      * attributes order: phone, password
      */
-    selectQuery: selecteWorkerQuery,
+    selectQuery: selectWorkerQuery,
     /**
      * attributes order : limit , offset
      */
@@ -75,6 +85,6 @@ export const SessionWorkersTable = {
     unregisterWorkerQuery : unregisterWorkerQuery,
 
     clearAllQuery : clearAllQuery,
-    tableName : tableName,
+    tableName : sessionWorkerTable,
 
 }

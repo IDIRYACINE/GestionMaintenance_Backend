@@ -1,8 +1,8 @@
 const tableName = 'GroupsPermissions';
 
 enum Attributes{
-    GroupId,
-    PermissionId,
+    GroupId = 'GroupId',
+    PermissionId = 'PermissionId',
 }
 
 enum AttributesTypes{
@@ -18,7 +18,7 @@ const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
     )`;
 
 
-const selectGroupPermissions = `SELECT * FROM ${tableName} WHERE 
+const selectGroupPermissions = `SELECT ${Attributes.PermissionId} FROM ${tableName} WHERE 
     ${Attributes.GroupId} =  ?`;    
 
 

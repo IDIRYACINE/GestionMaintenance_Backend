@@ -13,6 +13,7 @@ interface SessionWorker{
     groupId? : number,
     username? : string,
     departementId? : Array<number>,
+    workerName? : string,
 }
 
 interface SessionRecord{

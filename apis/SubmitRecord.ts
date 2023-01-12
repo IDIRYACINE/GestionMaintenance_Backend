@@ -5,7 +5,7 @@ import { ApiMethods, ApisEnum, apisRootPath } from "../configs/Configs";
 import { HttpStatus, OperationStatus, socketEvents } from "../configs/SpecialEnums";
 import { websocketManager } from "../src/WebSocketManager/WebSocketManager";
 import moment from "moment";
-import { database } from "Databases/Database";
+import { database } from "../src/Databases/Database";
 
 
 const name = ApisEnum.submitRecord;

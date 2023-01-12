@@ -108,6 +108,8 @@ export const MariaDb: Database = {
 
     fetchSessionWorker: async function (username, password): Promise<SessionWorker> {
         return db.query(SessionWorkersTable.selectQuery, [username, password]).then(async rows => {
+            
+        
             if (rows.length === 0) {
                 return null;
             }

@@ -13,6 +13,8 @@ const loginWorker = async (req: Request, res: Response) => {
 
     Authentication.authenticateUser(username, password).then(credential => {
         if(credential.authenticated){
+            console.log(credential)
+
             autherisedResponse(res,credential);
             return;
         }
@@ -29,7 +31,8 @@ const unautherisedResponse = (res: Response): void => {
     res.status(401)
 
     const json : AutherisedLoginResponse = {
-        authenticated: false
+        authenticated: false,
+        errorOccured: true,
     }
 
     res.json(json)

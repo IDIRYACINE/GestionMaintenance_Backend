@@ -8,6 +8,7 @@ interface Authentication {
 
 interface AutherisedLoginResponse {
     authenticated: boolean,
+    errorOccured?: boolean,
     workerId?: number,
     workerName?: string,
     departementId?: Array<number>,

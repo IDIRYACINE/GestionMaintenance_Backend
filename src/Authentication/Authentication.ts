@@ -9,7 +9,6 @@ export const Authentication : Authentication = {
     },
     authenticateUser: async function (username, password): Promise<AutherisedLoginResponse> {
         return MariaDb.fetchSessionWorker(username, password).then(sessionWorker => {
-            console.log(sessionWorker)
 
             if(sessionWorker === null){
                 return {
@@ -21,6 +20,8 @@ export const Authentication : Authentication = {
                 authenticated: true,
                 workerId: sessionWorker.workerId, 
                 departementId: sessionWorker.departementId,
+                groupId : sessionWorker.groupId,
+                workerName: sessionWorker.workerName,
                 accessToken: autherisedWorkerToken
             }
         })
