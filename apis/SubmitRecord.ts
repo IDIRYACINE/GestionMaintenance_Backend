@@ -6,20 +6,19 @@ import { HttpStatus, OperationStatus, socketEvents } from "../configs/SpecialEnu
 import { websocketManager } from "../src/WebSocketManager/WebSocketManager";
 import moment from "moment";
 import { database } from "../src/Databases/Database";
+import { ActiveSession } from "../src/State/ActiveSession";
 
 
 const name = ApisEnum.submitRecord;
 const version = 0;
 const description = "submit scanned record and get it's details";
 
-
-let requestMap = {}
-
 const submitRecord = (req: Request, res: Response) : void => {
+    
     const data : ProductFetchQuery = {
-        productCodebar: req.body.barcode,
+        productCodebar: parseInt(req.body.barcode),
         workerId: req.body.workerId,
-        permissions: req.body.departementId
+        permissions: req.body.permissions
     }
 
     database.fetchProduct(data).then(product => {
@@ -27,34 +26,47 @@ const submitRecord = (req: Request, res: Response) : void => {
             const rawTimestamp = Date.now()
             const timestamp = moment(rawTimestamp).format("YYYY-MM-DD HH:mm:ss.SSSSSSSSS")
             
+
             const record : SessionRecord = {
                 recordId: rawTimestamp,
-                sessionId: 0,
+                sessionId: ActiveSession.getSessionId(),
                 workerId: data.workerId,
                 groupId: req.body.groupId,
-                inventoryId: product.inventoryId,
+                inventoryId: product.barcode,
                 recordDate: timestamp,
                 stockQuantity: 1,
                 recordQuantity: 1,
-                stockPrice: product.price,
+                stockPrice: 0,
                 quantityShift: 0,
                 priceShift: 0
             }
 
+
             database.registerSessionRecord(record).then(_ => {
                 res.status(HttpStatus.success)
         
-                const json : RegisterSessionWorkerResponse = {
-                    operationResult: OperationStatus.success
+                const json : ProductDetaillsResponse = {
+                    operationResult: OperationStatus.success,
+                    barcode :  data.productCodebar,
+                    itemName: product.itemName,
+                    locationName: product.locationName,
+                    locationId: product.locationId
                 }
+
                 res.json(json)
+
+                websocketManager.broadcastMessage(socketEvents.sessionRecord,{
+                    type: socketEvents.sessionRecord,
+                    data: record
+                })
             })
 
         }
     })
 
 
-    //websocketManager.broadcastMessage(socketEvents.sessionRecord,message)
+
+   
     
 
 }

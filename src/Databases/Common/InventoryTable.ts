@@ -1,14 +1,14 @@
-
+import { DesignationsTable } from './DesignationsTable';
 
 const tableName = 'Inventory';
 
 enum Attributes {
-    ArticleId,
-    ArticleCode,
-    StockId,
-    ArticleName,
-    DesignationId,
-    FamilyCode,
+    ArticleId = "ArticleId",
+    ArticleCode = "ArticleCode",
+    StockId = "StockId",
+    ArticleName = "ArticleName",
+    DesignationId = "DesignationId",
+    FamilyCode = "FamilyCode",
 }
 
 
@@ -30,10 +30,10 @@ const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
 
 
 
-const selectInventoryProduct = `SELECT * FROM ${tableName} WHERE 
-    ${Attributes.ArticleCode} =  ? AND ${Attributes.DesignationId} IN (?)
+const selectInventoryProduct = `SELECT ${tableName}.* , ${DesignationsTable.tableName}.${DesignationsTable.attributes.DesignationName}
+    FROM ${tableName} 
     INNER JOIN Designations ON Designations.DesignationId = Inventory.DesignationId
-    `
+    WHERE ${Attributes.ArticleCode} =  ? AND ${tableName}.${Attributes.DesignationId} IN (?)`
 
 const selectAllQuery = `SELECT * FROM ${tableName} LIMIT ? OFFSET ?`;
 
@@ -51,6 +51,7 @@ const InventoryTable = {
 
     tableName: tableName,
 
+    attributes: Attributes
 }  
 
 interface InventoryProductRow {

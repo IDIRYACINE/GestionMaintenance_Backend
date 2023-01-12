@@ -2,8 +2,8 @@
 const tableName = 'Designations';
 
 enum Attributes {
-    DesignationId,
-    DesignationName,
+    DesignationId = "DesignationId",
+    DesignationName = "DesignationName",
 }
 
 enum AttributesTypes {
@@ -22,4 +22,5 @@ const selectAllQuery = `SELECT * FROM ${tableName} `;
 export const DesignationsTable = {
     createTableQuery: createTableQuery,
     attributes : Attributes,
+    tableName: tableName,
 }

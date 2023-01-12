@@ -1,5 +1,5 @@
 
-const tableName = 'session_records';
+const tableName = 'SessionsRecords';
 
 enum Attributes {
     RecordId = 'RecordId',
@@ -44,8 +44,9 @@ const selectAllQuery = `SELECT * FROM ${tableName}`;
 
 const clearAllQuery = `TRUNCATE TABLE ${tableName}`;
 
+
 const registerRecordQuery = `INSERT INTO ${tableName} (
-    ${Attributes.RecordId},
+    ${Attributes.SessionId},
     ${Attributes.WorkerId} , ${Attributes.GroupId},${Attributes.InventoryId},
     ${Attributes.RecordDate}, ${Attributes.StockQuantity}, ${Attributes.RecordQuantity},
     ${Attributes.StockPrice}, ${Attributes.QuantityShift}, ${Attributes.PriceShift})

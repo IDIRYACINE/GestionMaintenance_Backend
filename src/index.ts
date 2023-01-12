@@ -10,6 +10,7 @@ import { getAllFiles } from './Utilities/FileLoader';
 import { AllowedHeaders, AllowedMethods, ApiMethods, testDatabaseConnection } from '../configs/Configs';
 import { MariaDb } from './Databases/MariaDb/MariaDb';
 import { websocketManager } from './WebSocketManager/WebSocketManager';
+import { ActiveSession } from './State/ActiveSession';
 
 
 const app = express();
@@ -37,15 +38,9 @@ const registerApis : RegisterApiCallback = (api)=>{
   } 
 }
 
-app.post('/api/testPost', (req, res) => {
-  console.log(req.body)
-  console.log(req.headers)
-  res.send(req.body)
-})
-
 getAllFiles(eventsPath,registerApis)
 
-MariaDb.connect(testDatabaseConnection);
+MariaDb.connect(testDatabaseConnection).then(_ => ActiveSession.notifySessionIdChange())
 
 const httpServer = app.listen(process.env.PORT || 3050)
 

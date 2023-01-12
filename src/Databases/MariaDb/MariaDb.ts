@@ -52,7 +52,6 @@ export const MariaDb: Database = {
     },
 
     fetchActiveSession: async function (): Promise<Session> {
-
         return db.query(SessionTable.selectActiveSessionQuery).then(rows => {
             if (rows.length === 0) {
                 return null;
@@ -92,6 +91,7 @@ export const MariaDb: Database = {
         ]);
     },
     registerSessionRecord: async function (record): Promise<void> {
+        
         db.execute(ActiveSessionRecordsTable.registerRecordQuery, [
             record.sessionId,
             record.workerId,
