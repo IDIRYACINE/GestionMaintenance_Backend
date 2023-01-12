@@ -2,9 +2,10 @@
 
 import { Request, Response } from "express";
 import { ApiMethods, ApisEnum, apisRootPath } from "../configs/Configs";
-import { OperationStatus, socketEvents } from "../configs/SpecialEnums";
+import { HttpStatus, OperationStatus, socketEvents } from "../configs/SpecialEnums";
 import { websocketManager } from "../src/WebSocketManager/WebSocketManager";
 import moment from "moment";
+import { database } from "Databases/Database";
 
 
 const name = ApisEnum.submitRecord;
@@ -15,51 +16,49 @@ const description = "submit scanned record and get it's details";
 let requestMap = {}
 
 const submitRecord = (req: Request, res: Response) : void => {
-
-    const rawTimestamp = Date.now()
-    const timestamp = moment(rawTimestamp).format("YYYY-MM-DD HH:mm:ss.SSSSSSSSS")
-
-    const data : ProductDetaillsRequest = {
-        barcode: req.body.barcode,
+    const data : ProductFetchQuery = {
+        productCodebar: req.body.barcode,
         workerId: req.body.workerId,
-        workerName: req.body.workerName,
-        scannedDate: timestamp,
-        requestTimestamp: timestamp,
-        groupId: req.body.groupId,
-        departmentId: req.body.departementId
-    }
-    
-    const message : Message = {
-        type : socketEvents.sessionRecord,
-        data : data
+        permissions: req.body.departementId
     }
 
-    requestMap[rawTimestamp] = res
+    database.fetchProduct(data).then(product => {
+        if(product.operationResult === OperationStatus.success) {
+            const rawTimestamp = Date.now()
+            const timestamp = moment(rawTimestamp).format("YYYY-MM-DD HH:mm:ss.SSSSSSSSS")
+            
+            const record : SessionRecord = {
+                recordId: rawTimestamp,
+                sessionId: 0,
+                workerId: data.workerId,
+                groupId: req.body.groupId,
+                inventoryId: product.inventoryId,
+                recordDate: timestamp,
+                stockQuantity: 1,
+                recordQuantity: 1,
+                stockPrice: product.price,
+                quantityShift: 0,
+                priceShift: 0
+            }
+
+            database.registerSessionRecord(record).then(_ => {
+                res.status(HttpStatus.success)
+        
+                const json : RegisterSessionWorkerResponse = {
+                    operationResult: OperationStatus.success
+                }
+                res.json(json)
+            })
+
+        }
+    })
 
 
-    websocketManager.broadcastMessage(socketEvents.sessionRecord,message)
+    //websocketManager.broadcastMessage(socketEvents.sessionRecord,message)
     
 
 }
 
-const onProductDetaillsCallback = (resId : string , data : any) => {
-
-    const json : ProductDetaillsResponse = {
-        operationResult: OperationStatus.success,
-        barcode :  parseInt(data.barcode),
-        itemName: data.itemName,
-        locationName: data.locationName,
-        locationId: data.locationId
-    }
-
-    const key = Date.parse(resId)
-    const res : Response = requestMap[key]
-
-    res.json(json)
-
-    delete requestMap[key]
-
-}
 
 const SubmitSessionRecord : ApiInterface = {
     name: name,
@@ -75,4 +74,3 @@ const SubmitSessionRecord : ApiInterface = {
 
 export default SubmitSessionRecord;
 
-export {onProductDetaillsCallback};

@@ -60,10 +60,12 @@ interface ActiveSessionResponse{
 
 interface ProductDetaillsResponse{
     operationResult : OperationStatus,
-    barcode:number,
-    itemName: string ,
-    locationName : string ,
-    locationId : number , 
+    barcode? :number,
+    itemName? : string ,
+    locationName? : string ,
+    locationId? : number , 
+    inventoryId? : number,
+    price? : number,
 }
 
 interface ProductDetaillsRequest{

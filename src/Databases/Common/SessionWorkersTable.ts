@@ -1,30 +1,33 @@
-const tableName = 'session_workers';
+
+const tableName = 'SessionWorkers';
+
 
 enum Attributes{
     WorkerId = 'WorkerId',
     GroupId = 'GroupId',
     Password = 'Password',
     Username = 'Username',
-    Phone = 'Phone',
+    SupervisorId = 'SupervisorId'
 }
 
 enum AttributesTypes{
     WorkerId = 'INTEGER PRIMARY KEY',
     GroupId = 'INTEGER',
-    Phone = 'INTEGER',
     Password = 'TEXT',
     Username = 'TEXT',
+    SupervisorId = 'INTEGER'
 }
 
 const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
     ${Attributes.WorkerId} ${AttributesTypes.WorkerId} ,
     ${Attributes.GroupId}  ${AttributesTypes.GroupId},
     ${Attributes.Password} ${AttributesTypes.Password},
-    ${Attributes.Phone} ${AttributesTypes.Phone},
+    ${Attributes.SupervisorId} ${AttributesTypes.SupervisorId},
     ${Attributes.Username} ${AttributesTypes.Username})`;
 
 const selecteWorkerQuery = `SELECT * FROM ${tableName} WHERE 
     ${Attributes.Username} = ? AND ${Attributes.Password} = ?`;
+
 
 const registerWorkerQuery = `INSERT INTO ${tableName} (
     ${Attributes.WorkerId} , ${Attributes.GroupId},

@@ -19,7 +19,7 @@ export const Authentication : Authentication = {
             }
             return {
                 authenticated: true,
-                workerId: sessionWorker.workerId, // TODO : fix this to be workerId
+                workerId: sessionWorker.workerId, 
                 departementId: sessionWorker.departementId,
                 accessToken: autherisedWorkerToken
             }

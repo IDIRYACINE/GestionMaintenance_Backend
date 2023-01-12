@@ -1,7 +1,9 @@
 
 
 interface ProductFetchQuery{
-    productCodebar : number
+    productCodebar : number,
+    workerId : number,
+    permissions : Array<number>,
 }
 
 interface SessionWorker{
@@ -10,7 +12,7 @@ interface SessionWorker{
     password? : string,
     groupId? : number,
     username? : string,
-    departementId? : number,
+    departementId? : Array<number>,
 }
 
 interface SessionRecord{
@@ -53,5 +55,7 @@ interface Database {
     unregisterSessionWorker(workerId : string) : Promise<void>,
     updateSessionWorker(worker : SessionWorker) : Promise<void>,
     registerSessionRecord(record : SessionRecord) : Promise<void>,
-    fetchSessionWorker(phone : string, password : string) : Promise<SessionWorker>
+    fetchSessionWorker(phone : string, password : string) : Promise<SessionWorker>,
+    submitScannedProduct(barcode:number , workerPermissions : Array<number>) : Promise<ProductDetaillsResponse>,
+    fetchProduct(productQuery : ProductFetchQuery) : Promise<ProductDetaillsResponse>,
 }

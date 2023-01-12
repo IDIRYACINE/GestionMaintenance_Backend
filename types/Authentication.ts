@@ -10,7 +10,7 @@ interface AutherisedLoginResponse {
     authenticated: boolean,
     workerId?: number,
     workerName?: string,
-    departementId?: number,
+    departementId?: Array<number>,
 }
 
 interface AutheriseAdminLoginResponse {

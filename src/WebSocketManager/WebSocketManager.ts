@@ -6,7 +6,6 @@ import { WebSocketServer,WebSocket } from 'ws';
 import { AllowedOrigins, Headers } from '../../configs/Configs'
 import { IncomingMessage, Server } from "http";
 import { socketEvents } from "../../configs/SpecialEnums";
-import { onProductDetaillsCallback } from "../../apis/SubmitRecord";
 
 let wss : WebSocketServer
 
@@ -42,8 +41,7 @@ const registerSocketEvents = () => {
             if(typeof(message) !== "string" || typeof(message) !== "object")
                 message = JSON.parse(message.toString())
                 
-            if(message.event === socketEvents.productDetaills)
-                onProductDetaillsCallback(message.requestTimestamp , message)
+            
           });
 
         socket.emit(socketEvents.onConnection , message)
