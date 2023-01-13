@@ -13,6 +13,8 @@ enum Attributes {
     StockPrice = 'StockPrice',
     QuantityShift = 'QuantityShift',
     PriceShift = 'PriceShift',
+    WorkerName = 'WorkerName',
+    ArticleName = 'ArticleName',
 }
 
 enum AttributesTypes{
@@ -27,6 +29,8 @@ enum AttributesTypes{
     StockPrice = 'REAL',
     QuantityShift = 'INTEGER',
     PriceShift = 'REAL',
+    WorkerName = 'TEXT',
+    ArticleName = 'TEXT',
 }
 
 const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
@@ -38,7 +42,10 @@ const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
     ${Attributes.RecordQuantity} ${AttributesTypes.RecordQuantity},
     ${Attributes.StockPrice} ${AttributesTypes.StockPrice},
     ${Attributes.QuantityShift} ${AttributesTypes.QuantityShift},
-    ${Attributes.PriceShift} ${AttributesTypes.PriceShift})`;
+    ${Attributes.PriceShift} ${AttributesTypes.PriceShift},
+    ${Attributes.WorkerName} ${AttributesTypes.WorkerName},
+    ${Attributes.ArticleName} ${AttributesTypes.ArticleName},
+    )`;
 
 const selectAllQuery = `SELECT * FROM ${tableName}`;
 
@@ -49,8 +56,9 @@ const registerRecordQuery = `INSERT INTO ${tableName} (
     ${Attributes.SessionId},
     ${Attributes.WorkerId} , ${Attributes.GroupId},${Attributes.InventoryId},
     ${Attributes.RecordDate}, ${Attributes.StockQuantity}, ${Attributes.RecordQuantity},
-    ${Attributes.StockPrice}, ${Attributes.QuantityShift}, ${Attributes.PriceShift})
-    VALUES (?,?, ?, ?,?, ?, ?, ?, ?, ?)`;
+    ${Attributes.StockPrice}, ${Attributes.QuantityShift}, ${Attributes.PriceShift},
+    ${Attributes.WorkerName}, ${Attributes.ArticleName})
+    VALUES (?,?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?)`;
     
 export const ActiveSessionRecordsTable = {
     createTableQuery: createTableQuery,

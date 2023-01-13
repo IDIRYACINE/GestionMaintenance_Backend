@@ -18,7 +18,8 @@ const submitRecord = (req: Request, res: Response) : void => {
     const data : ProductFetchQuery = {
         productCodebar: parseInt(req.body.barcode),
         workerId: req.body.workerId,
-        permissions: req.body.permissions
+        permissions: req.body.permissions,
+        workerName: req.body.workerName
     }
 
     database.fetchProduct(data).then(product => {
@@ -26,19 +27,21 @@ const submitRecord = (req: Request, res: Response) : void => {
             const rawTimestamp = Date.now()
             const timestamp = moment(rawTimestamp).format("YYYY-MM-DD HH:mm:ss.SSSSSSSSS")
             
-
             const record : SessionRecord = {
                 recordId: rawTimestamp,
                 sessionId: ActiveSession.getSessionId(),
                 workerId: data.workerId,
                 groupId: req.body.groupId,
-                inventoryId: product.barcode,
+                articleId: product.barcode,
                 recordDate: timestamp,
                 stockQuantity: 1,
                 recordQuantity: 1,
                 stockPrice: 0,
                 quantityShift: 0,
-                priceShift: 0
+                priceShift: 0,
+                productDesignation: product.locationId,
+                workerName: data.workerName,
+                articleName: product.itemName,
             }
 
 

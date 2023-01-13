@@ -4,6 +4,7 @@ interface ProductFetchQuery{
     productCodebar : number,
     workerId : number,
     permissions : Array<number>,
+    workerName : string,
 }
 
 interface SessionWorker{
@@ -21,13 +22,16 @@ interface SessionRecord{
     sessionId : number,
     workerId : number,
     groupId : number,
-    inventoryId : number,
+    articleId : number,
     recordDate : string,
     stockQuantity : number,
     recordQuantity : number,
     stockPrice : number,
     quantityShift : number,
     priceShift : number,
+    workerName : string,
+    articleName : string,
+    productDesignation : number
 }
 
 interface Session{

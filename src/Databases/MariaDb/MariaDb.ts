@@ -96,13 +96,15 @@ export const MariaDb: Database = {
             record.sessionId,
             record.workerId,
             record.groupId,
-            record.inventoryId,
+            record.articleId,
             record.recordDate,
             record.stockQuantity,
             record.recordQuantity,
             record.stockPrice,
             record.quantityShift,
             record.priceShift,
+            record.workerName,
+            record.articleName
         ]);
     },
 
