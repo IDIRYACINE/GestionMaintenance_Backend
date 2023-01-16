@@ -63,4 +63,6 @@ interface Database {
     fetchSessionWorker(phone : string, password : string) : Promise<SessionWorker>,
     submitScannedProduct(barcode:number , workerPermissions : Array<number>) : Promise<ProductDetaillsResponse>,
     fetchProduct(productQuery : ProductFetchQuery) : Promise<ProductDetaillsResponse>,
+    fetchScannedBarocde(barcode:number) : Promise<Boolean>,
+    insertScannedBarcode(barcode:number) : Promise<void>,
 }

@@ -77,3 +77,4 @@ interface ProductDetaillsRequest{
     groupId : number,
     departmentId : number,
 }
+
