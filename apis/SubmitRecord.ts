@@ -13,69 +13,88 @@ const name = ApisEnum.submitRecord;
 const version = 0;
 const description = "submit scanned record and get it's details";
 
-const submitRecord = (req: Request, res: Response) : void => {
-    
-    const data : ProductFetchQuery = {
+const submitRecord = (req: Request, res: Response): void => {
+
+    const data: ProductFetchQuery = {
         productCodebar: parseInt(req.body.barcode),
         workerId: req.body.workerId,
         permissions: req.body.permissions,
         workerName: req.body.workerName
     }
 
-    database.fetchProduct(data).then(product => {
-        if(product.operationResult === OperationStatus.success) {
-            const rawTimestamp = Date.now()
-            const timestamp = moment(rawTimestamp).format("YYYY-MM-DD HH:mm:ss.SSSSSSSSS")
-            
-            const record : SessionRecord = {
-                recordId: rawTimestamp,
-                sessionId: ActiveSession.getSessionId(),
-                workerId: data.workerId,
-                groupId: req.body.groupId,
-                articleId: product.barcode,
-                recordDate: timestamp,
-                stockQuantity: 1,
-                recordQuantity: 1,
-                stockPrice: 0,
-                quantityShift: 0,
-                priceShift: 0,
-                productDesignation: product.locationId,
-                workerName: data.workerName,
-                articleName: product.itemName,
+    database.fetchScannedBarocde(data.productCodebar).then(barcodeExists => {
+        if (!barcodeExists) {
+
+            database.insertScannedBarcode(data.productCodebar)
+
+            database.fetchProduct(data).then(product => {
+                if (product.operationResult === OperationStatus.success) {
+                    const rawTimestamp = Date.now()
+                    const timestamp = moment(rawTimestamp).format("YYYY-MM-DD HH:mm:ss.SSSSSSSSS")
+
+                    const record: SessionRecord = {
+                        recordId: rawTimestamp,
+                        sessionId: ActiveSession.getSessionId(),
+                        workerId: data.workerId,
+                        groupId: req.body.groupId,
+                        articleId: product.barcode,
+                        recordDate: timestamp,
+                        stockQuantity: 1,
+                        recordQuantity: 1,
+                        stockPrice: 0,
+                        quantityShift: 0,
+                        priceShift: 0,
+                        productDesignation: product.locationId,
+                        workerName: data.workerName,
+                        articleName: product.itemName,
+                    }
+
+
+                    database.registerSessionRecord(record).then(_ => {
+                        res.status(HttpStatus.success)
+
+                        const json: ProductDetaillsResponse = {
+                            operationResult: OperationStatus.success,
+                            barcode: data.productCodebar,
+                            itemName: product.itemName,
+                            locationName: product.locationName,
+                            locationId: product.locationId
+                        }
+
+                        res.json(json)
+
+                        websocketManager.broadcastMessage(socketEvents.sessionRecord, {
+                            type: socketEvents.sessionRecord,
+                            data: record
+                        })
+                    })
+
+                }
+            })
+        }
+
+        else {
+            const json: ProductDetaillsResponse = {
+                operationResult: OperationStatus.alreadyScanned,
+
             }
 
-
-            database.registerSessionRecord(record).then(_ => {
-                res.status(HttpStatus.success)
-        
-                const json : ProductDetaillsResponse = {
-                    operationResult: OperationStatus.success,
-                    barcode :  data.productCodebar,
-                    itemName: product.itemName,
-                    locationName: product.locationName,
-                    locationId: product.locationId
-                }
-
-                res.json(json)
-
-                websocketManager.broadcastMessage(socketEvents.sessionRecord,{
-                    type: socketEvents.sessionRecord,
-                    data: record
-                })
-            })
-
+            res.json(json)
         }
-    })
+    }
+
+
+    )
 
 
 
-   
-    
+
+
 
 }
 
 
-const SubmitSessionRecord : ApiInterface = {
+const SubmitSessionRecord: ApiInterface = {
     name: name,
     version: version,
     description: description,

@@ -45,9 +45,9 @@ export const MariaDb: Database = {
     closeSession: async function (sessionId): Promise<void> {
 
 
-        db.execute(SessionWorkersTable.clearAllQuery);
-        db.execute(ActiveSessionRecordsTable.clearAllQuery);
-        db.execute(SessionTable.clearAllQuery);
+        
+        db.execute(ScannedArticlesTable.clearAllQuery);
+        db.execute(SessionTable.closeSessionQuery, [false,sessionId]);
 
 
     },
@@ -193,8 +193,9 @@ export const MariaDb: Database = {
 
 
 async function createTablesIfNotExists(): Promise<void> {
-    const tablesQueryRows = await db.query(`Select * from information_schema.Tables where table_Name='${ActiveSessionRecordsTable.tableName}'`);
+    const tablesQueryRows = await db.query(`Select * from information_schema.Tables where table_Name='${ScannedArticlesTable.tableName}'`);
     if (tablesQueryRows.length === 0) {
+        db.execute(ScannedArticlesTable.createTableQuery);
         db.execute(ActiveSessionRecordsTable.createTableQuery);
         db.execute(SessionWorkersTable.createTableQuery);
         db.execute(SessionTable.createTableQuery);

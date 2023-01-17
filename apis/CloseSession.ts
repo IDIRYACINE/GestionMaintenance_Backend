@@ -19,6 +19,7 @@ const closeSession = (req: Request, res: Response) : void =>{
             sessionId: sessionId
         }
 
+
         res.json(json)
     })
 

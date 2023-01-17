@@ -15,6 +15,7 @@ const selectScannedQuery = `SELECT * FROM ${tableName} WHERE ${Attributes.Scanne
 
 const insertScannedQuery = `INSERT INTO ${tableName} (${Attributes.ScannedCodebar}) VALUES (?)`;
 
+const clearAllQuery = `TRUNCATE TABLE ${tableName}`;
 
 export const ScannedArticlesTable = {
     selectScannedQuery: selectScannedQuery,
@@ -22,4 +23,5 @@ export const ScannedArticlesTable = {
     createTableQuery: createTableQuery,
     attributes : Attributes,
     tableName: tableName,
+    clearAllQuery : clearAllQuery,
 }

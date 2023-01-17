@@ -1,8 +1,10 @@
 
 
+
 export enum OperationStatus {
     success,
     fail,
+    alreadyScanned
 }
 
 export enum HttpStatus {
