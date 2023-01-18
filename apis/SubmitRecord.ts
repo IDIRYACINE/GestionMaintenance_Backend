@@ -22,46 +22,38 @@ const submitRecord = (req: Request, res: Response): void => {
         workerName: req.body.workerName
     }
 
-    database.fetchScannedBarocde(data.productCodebar).then(barcodeExists => {
-        if (!barcodeExists) {
 
+    database.fetchScannedBarocde(data.productCodebar).then(barcodeExists => {
+
+        if(!barcodeExists)
             database.insertScannedBarcode(data.productCodebar)
 
-            database.fetchProduct(data).then(product => {
-                if (product.operationResult === OperationStatus.success) {
-                    const rawTimestamp = Date.now()
-                    const timestamp = moment(rawTimestamp).format("YYYY-MM-DD HH:mm:ss.SSSSSSSSS")
+        database.fetchProduct(data).then(product => {
 
-                    const record: SessionRecord = {
-                        recordId: rawTimestamp,
-                        sessionId: ActiveSession.getSessionId(),
-                        workerId: data.workerId,
-                        groupId: req.body.groupId,
-                        articleId: product.barcode,
-                        recordDate: timestamp,
-                        stockQuantity: 1,
-                        recordQuantity: 1,
-                        stockPrice: 0,
-                        quantityShift: 0,
-                        priceShift: 0,
-                        productDesignation: product.locationId,
-                        workerName: data.workerName,
-                        articleName: product.itemName,
-                    }
+            if (product.operationResult === OperationStatus.success) {
+                const rawTimestamp = Date.now()
+                const timestamp = moment(rawTimestamp).format("YYYY-MM-DD HH:mm:ss.SSSSSSSSS")
 
+                const record: SessionRecord = {
+                    recordId: rawTimestamp,
+                    sessionId: ActiveSession.getSessionId(),
+                    workerId: data.workerId,
+                    groupId: req.body.groupId,
+                    articleId: product.barcode,
+                    recordDate: timestamp,
+                    stockQuantity: 1,
+                    recordQuantity: 1,
+                    stockPrice: product.price,
+                    quantityShift: 0,
+                    priceShift: 0,
+                    productDesignation: product.locationId,
+                    workerName: data.workerName,
+                    articleName: product.itemName,
+                }
 
+                if (!barcodeExists) {
                     database.registerSessionRecord(record).then(_ => {
                         res.status(HttpStatus.success)
-
-                        const json: ProductDetaillsResponse = {
-                            operationResult: OperationStatus.success,
-                            barcode: data.productCodebar,
-                            itemName: product.itemName,
-                            locationName: product.locationName,
-                            locationId: product.locationId
-                        }
-
-                        res.json(json)
 
                         websocketManager.broadcastMessage(socketEvents.sessionRecord, {
                             type: socketEvents.sessionRecord,
@@ -70,28 +62,23 @@ const submitRecord = (req: Request, res: Response): void => {
                     })
 
                 }
-            })
-        }
 
-        else {
-            const json: ProductDetaillsResponse = {
-                operationResult: OperationStatus.alreadyScanned,
+                const json: ProductDetaillsResponse = {
+                    operationResult: OperationStatus.success,
+                    barcode: data.productCodebar,
+                    itemName: product.itemName,
+                    locationName: product.locationName,
+                    locationId: product.locationId
+                }
+
+                res.json(json)
 
             }
-
-            res.json(json)
-        }
-    }
-
-
-    )
-
-
-
-
-
-
+        })
+    })
 }
+
+
 
 
 const SubmitSessionRecord: ApiInterface = {

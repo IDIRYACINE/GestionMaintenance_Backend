@@ -8,7 +8,7 @@ import moment from "moment";
 import { OperationStatus } from "../../../configs/SpecialEnums";
 import { InventoryProductRow, InventoryTable } from "../Common/InventoryTable";
 import { GroupsPermissionsTable } from "../Common/GroupPermissionsTable";
-import { ScannedArticlesTable } from "Databases/Common/ScannedArticlesTable";
+import { ScannedArticlesTable } from "../Common/ScannedArticlesTable";
 
 let db: mariaDatabase.Connection;
 
@@ -146,8 +146,8 @@ export const MariaDb: Database = {
                 operationResult: OperationStatus.success,
                 barcode: data.ArticleCode,
                 itemName: data.ArticleName,
-                locationName: data.DesignationName,
-                locationId: data.DesignationId
+                locationName: data.AffectationName,
+                locationId: data.AffectationId
             };
         }
         );
@@ -157,7 +157,6 @@ export const MariaDb: Database = {
         const workerPermissionsString = productQuery.permissions.join(",");
 
         return db.query(InventoryTable.selectInventoryProduct, [productQuery.productCodebar, workerPermissionsString]).then(rows => {
-
             if (rows.length === 0) {
                 return {
                     operationResult: OperationStatus.fail,
@@ -170,8 +169,10 @@ export const MariaDb: Database = {
                 operationResult: OperationStatus.success,
                 barcode: data.ArticleCode,
                 itemName: data.ArticleName,
-                locationName: data.DesignationName,
-                locationId: data.DesignationId,
+                locationName: data.AffectationName,
+                locationId: data.AffectationId,
+                price: data.ArticlePrice,
+                
             };
         }
         );
@@ -196,8 +197,5 @@ async function createTablesIfNotExists(): Promise<void> {
     const tablesQueryRows = await db.query(`Select * from information_schema.Tables where table_Name='${ScannedArticlesTable.tableName}'`);
     if (tablesQueryRows.length === 0) {
         db.execute(ScannedArticlesTable.createTableQuery);
-        db.execute(ActiveSessionRecordsTable.createTableQuery);
-        db.execute(SessionWorkersTable.createTableQuery);
-        db.execute(SessionTable.createTableQuery);
     }
 }

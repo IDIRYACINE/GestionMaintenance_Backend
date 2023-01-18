@@ -1,4 +1,4 @@
-import { DesignationsTable } from './DesignationsTable';
+import { AffectationTable } from './AffectationsTable';
 
 const tableName = 'Inventory';
 
@@ -7,7 +7,7 @@ enum Attributes {
     ArticleCode = "ArticleCode",
     StockId = "StockId",
     ArticleName = "ArticleName",
-    DesignationId = "DesignationId",
+    AffectationId = "AffectationId",
     FamilyCode = "FamilyCode",
 }
 
@@ -16,7 +16,7 @@ enum AttributesTypes {
     ArticleId = "INTEGER PRIMARY KEY",
     ArticleName = "TEXT",
     ArticleCode = " INTEGER",
-    DesignationId = " INTEGER",
+    AffectationId = " INTEGER",
     FamilyCode = " INTEGER"
 
 }
@@ -25,15 +25,16 @@ const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
     ${Attributes.ArticleId} ${AttributesTypes.ArticleId} ,
     ${Attributes.ArticleName}  ${AttributesTypes.ArticleName},
     ${Attributes.ArticleCode} ${AttributesTypes.ArticleCode},
-    ${Attributes.DesignationId} ${AttributesTypes.DesignationId},
+    ${Attributes.AffectationId} ${AttributesTypes.AffectationId},
     ${Attributes.FamilyCode} ${AttributesTypes.FamilyCode})`;
 
 
 
-const selectInventoryProduct = `SELECT ${tableName}.* , ${DesignationsTable.tableName}.${DesignationsTable.attributes.DesignationName}
+const selectInventoryProduct = `SELECT ${tableName}.* , ${AffectationTable.tableName}.${AffectationTable.attributes.AffectationName}
     FROM ${tableName} 
-    INNER JOIN Designations ON Designations.DesignationId = Inventory.DesignationId
-    WHERE ${Attributes.ArticleCode} =  ? AND ${tableName}.${Attributes.DesignationId} IN (?)`
+    INNER JOIN ${AffectationTable.tableName} ON ${AffectationTable.tableName}.${AffectationTable.attributes.AffectationId}
+     = ${tableName}.${Attributes.AffectationId}
+    WHERE ${Attributes.ArticleCode} =  ? AND ${tableName}.${Attributes.AffectationId} IN (?)`
 
 const selectAllQuery = `SELECT * FROM ${tableName} LIMIT ? OFFSET ?`;
 
@@ -59,9 +60,10 @@ interface InventoryProductRow {
     ArticleCode: number;
     StockId: number;
     ArticleName: string;
-    DesignationId: number;
-    DesignationName: string;
+    AffectationId: number;
+    AffectationName: string;
     FamilyCode: number;
+    ArticlePrice: number;
 }
 
 export { InventoryTable, InventoryProductRow}

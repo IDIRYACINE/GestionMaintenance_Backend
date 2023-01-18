@@ -13,7 +13,7 @@ const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
 
 const selectScannedQuery = `SELECT * FROM ${tableName} WHERE ${Attributes.ScannedCodebar} = ?`; 
 
-const insertScannedQuery = `INSERT INTO ${tableName} (${Attributes.ScannedCodebar}) VALUES (?)`;
+const insertScannedQuery = `INSERT IGNORE INTO ${tableName} (${Attributes.ScannedCodebar}) VALUES (?)`;
 
 const clearAllQuery = `TRUNCATE TABLE ${tableName}`;
 
