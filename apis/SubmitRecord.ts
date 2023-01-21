@@ -25,10 +25,11 @@ const submitRecord = (req: Request, res: Response): void => {
 
     database.fetchScannedBarocde(data.productCodebar).then(barcodeExists => {
 
-        if(!barcodeExists)
-            database.insertScannedBarcode(data.productCodebar)
 
         database.fetchProduct(data).then(product => {
+
+            if(!barcodeExists)
+                database.insertScannedBarcode(data.productCodebar,product.locationId)
 
             if (product.operationResult === OperationStatus.success) {
                 const rawTimestamp = Date.now()

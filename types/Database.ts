@@ -55,7 +55,7 @@ interface Database {
     openSession(session:Session) : Promise<void>,
     closeSession(sessionId : string) : Promise<void>,
     fetchActiveSession() : Promise<Session>,
-    fetchActiveSessionRecords() : Promise<Array<SessionRecord>>,
+    fetchActiveSessionRecords(permissions:number[]) : Promise<Array<SessionRecord>>,
     registerSessionWorker(worker : SessionWorker) : Promise<void>,
     unregisterSessionWorker(workerId : string) : Promise<void>,
     updateSessionWorker(worker : SessionWorker) : Promise<void>,
@@ -64,5 +64,5 @@ interface Database {
     submitScannedProduct(barcode:number , workerPermissions : Array<number>) : Promise<ProductDetaillsResponse>,
     fetchProduct(productQuery : ProductFetchQuery) : Promise<ProductDetaillsResponse>,
     fetchScannedBarocde(barcode:number) : Promise<Boolean>,
-    insertScannedBarcode(barcode:number) : Promise<void>,
+    insertScannedBarcode(barcode:number,affectationId:number) : Promise<void>,
 }

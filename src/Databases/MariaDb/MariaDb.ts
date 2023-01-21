@@ -9,6 +9,7 @@ import { OperationStatus } from "../../../configs/SpecialEnums";
 import { InventoryProductRow, InventoryTable } from "../Common/InventoryTable";
 import { GroupsPermissionsTable } from "../Common/GroupPermissionsTable";
 import { ScannedArticlesTable } from "../Common/ScannedArticlesTable";
+import { ActiveSession } from '../../State/ActiveSession';
 
 let db: mariaDatabase.Connection;
 
@@ -68,8 +69,16 @@ export const MariaDb: Database = {
         });
     },
 
-    fetchActiveSessionRecords: async function (): Promise<SessionRecord[]> {
-        return db.execute(ActiveSessionRecordsTable.selectAllQuery);
+    fetchActiveSessionRecords: async function (permissions:number[]): Promise<SessionRecord[]> {
+        let pPermission  = ""
+        permissions.forEach((permission,index) => {
+            pPermission += permission
+            if(index < permissions.length - 1){
+                pPermission += permission + ","
+            }
+        })
+
+        return db.execute(ActiveSessionRecordsTable.selectByPermissionQuery,[pPermission,ActiveSession.getSessionId()]);
     },
 
     registerSessionWorker: async function (worker): Promise<void> {
@@ -187,8 +196,8 @@ export const MariaDb: Database = {
         });
 
     },
-    insertScannedBarcode: function (barcode: number): Promise<void> {
-        return db.execute(ScannedArticlesTable.insertScannedQuery, [barcode]);
+    insertScannedBarcode: function (barcode: number,affectationId:number): Promise<void> {
+        return db.execute(ScannedArticlesTable.insertScannedQuery, [barcode,affectationId]);
     }
 }
 

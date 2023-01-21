@@ -1,3 +1,4 @@
+import { ScannedArticlesTable } from './ScannedArticlesTable';
 
 const tableName = 'SessionsRecords';
 
@@ -19,7 +20,7 @@ enum Attributes {
 
 enum AttributesTypes{
     RecordId = 'INTEGER PRIMARY KEY',
-    SessionId = 'INTEGER',
+    SessionId = 'TIMESTAMP',
     WorkerId = 'INTEGER',
     GroupId = 'INTEGER',
     InventoryId = 'INTEGER',
@@ -27,8 +28,6 @@ enum AttributesTypes{
     StockQuantity = 'INTEGER',
     RecordQuantity = 'INTEGER',
     StockPrice = 'REAL',
-    QuantityShift = 'INTEGER',
-    PriceShift = 'REAL',
     WorkerName = 'TEXT',
     ArticleName = 'TEXT',
 }
@@ -41,13 +40,16 @@ const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
     ${Attributes.StockQuantity} ${AttributesTypes.StockQuantity},
     ${Attributes.RecordQuantity} ${AttributesTypes.RecordQuantity},
     ${Attributes.StockPrice} ${AttributesTypes.StockPrice},
-    ${Attributes.QuantityShift} ${AttributesTypes.QuantityShift},
-    ${Attributes.PriceShift} ${AttributesTypes.PriceShift},
     ${Attributes.WorkerName} ${AttributesTypes.WorkerName},
     ${Attributes.ArticleName} ${AttributesTypes.ArticleName},
+    ${Attributes.SessionId} ${AttributesTypes.SessionId},
     )`;
 
-const selectAllQuery = `SELECT * FROM ${tableName}`;
+const selectAllQuery = `SELECT * FROM ${tableName} WHERE ${Attributes.SessionId} = ?`;
+const selectByPermissionQuery = `SELECT ${tableName}.* FROM ${ScannedArticlesTable.tableName},${tableName} WHERE 
+    ${ScannedArticlesTable.tableName}.${ScannedArticlesTable.attributes.AffectationId} IN (?) AND 
+    ${ScannedArticlesTable.attributes.ScannedCodebar} = ${Attributes.InventoryId}
+    AND ${Attributes.SessionId} = ?`;
 
 const clearAllQuery = `TRUNCATE TABLE ${tableName}`;
 
@@ -63,6 +65,8 @@ const registerRecordQuery = `INSERT INTO ${tableName} (
 export const ActiveSessionRecordsTable = {
     createTableQuery: createTableQuery,
     selectAllQuery: selectAllQuery,
+    selectByPermissionQuery: selectByPermissionQuery,
+
     clearAllQuery: clearAllQuery,
     /**
      * attributes order : recordId, workerId, groupId

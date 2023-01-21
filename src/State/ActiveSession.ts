@@ -14,9 +14,12 @@ function fetchNewSessionId() : void {
     })
 }
 
-
+function getSessionId() : any {
+    console.log(sessionId)
+    return sessionId
+}
 
 export const ActiveSession : SessionState = {
-    getSessionId: () => sessionId,
+    getSessionId: getSessionId,
     notifySessionIdChange: fetchNewSessionId
 }

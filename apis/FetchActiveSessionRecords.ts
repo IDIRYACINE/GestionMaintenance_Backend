@@ -11,7 +11,9 @@ const description = "fetch active session records";
 
 const fetchSessionRecords = (req: Request, res: Response) : void => {
 
-    database.fetchActiveSessionRecords().then(records =>{
+    const permissions:any = JSON.parse(req.query.permissions as string)
+
+    database.fetchActiveSessionRecords(permissions).then(records =>{
         
         if(records != undefined || records.length > 0){
             res.status(HttpStatus.success)
