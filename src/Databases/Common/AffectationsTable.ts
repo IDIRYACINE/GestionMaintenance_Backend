@@ -18,15 +18,13 @@ enum PermissionsAttributes {
 }
 
 enum PermissionsAttributesTypes {
-    UserId = "INTEGER",
+    UserId = "INTEGER PRIMARY KEY",
     AffectationId = "INTEGER",
 }
 
-
-
 const createAffectationTableQuery = `CREATE TABLE IF NOT EXISTS ${affectationTableName} (
     ${AffectationAttributes.AffectationId} ${AffectationAttributesTypes.AffectationId} ,
-    ${AffectationAttributes.AffectationName}  ${AffectationAttributesTypes.AffectationName})`;
+    ${AffectationAttributes.AffectationName}  ${AffectationAttributesTypes.AffectationName},)`;
 
 const createPermissionsTableQuery = `CREATE TABLE IF NOT EXISTS ${permissionsTableName} (
     ${PermissionsAttributes.UserId} ${PermissionsAttributesTypes.UserId} ,

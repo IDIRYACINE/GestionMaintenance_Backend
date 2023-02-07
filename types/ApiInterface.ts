@@ -78,3 +78,7 @@ interface ProductDetaillsRequest{
     departmentId : number,
 }
 
+interface AttributesWrapper{
+    name:string,
+    value:any,
+}

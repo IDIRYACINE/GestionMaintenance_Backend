@@ -36,13 +36,64 @@ const selectInventoryProduct = `SELECT ${tableName}.* , ${AffectationTable.affec
      = ${tableName}.${Attributes.AffectationId}
     WHERE ${Attributes.ArticleCode} =  ? AND ${tableName}.${Attributes.AffectationId} IN (?)`
 
-const selectAllQuery = `SELECT * FROM ${tableName} LIMIT ? OFFSET ?`;
+const selectAllQuery = `SELECT * FROM ${tableName} `;
 
 const clearAllQuery = `TRUNCATE TABLE ${tableName}`;
+
+const registerInventoryProduct = `INSERT INTO ${tableName} (  ${Attributes.ArticleId} ${AttributesTypes.ArticleId} ,
+    ${Attributes.ArticleName} , ${Attributes.ArticleCode} ,${Attributes.AffectationId} ,${Attributes.FamilyCode})
+    VALUES (?,?,?,?,?,?)`;
+
+const registerInventoryProductBatch = `INSERT INTO ${tableName} (  ${Attributes.ArticleId} ${AttributesTypes.ArticleId} ,
+        ${Attributes.ArticleName} , ${Attributes.ArticleCode} ,${Attributes.AffectationId} ,${Attributes.FamilyCode})
+        VALUES ?`;
+
+const unregisterInventoryProduct = `DELETE FROM ${tableName} WHERE ${Attributes.ArticleId} = ? `;
+
+function generateUpdateQuery(attributes: AttributesWrapper[]): string {
+    let query = `UPDATE ${tableName} `;
+    for (let i = 0; i < attributes.length; i++) {
+        if (i < attributes.length - 1) {
+            query += `${attributes[i].name} = ?,`;
+        }
+        query += `${attributes[i].name} = ? `;
+        query += `WHERE ${Attributes.ArticleId} = ?`
+    }
+    return query;
+
+}
+
+function generateSearchQuery(attributes:AttributesWrapper[],hasPermissions:boolean,isAdmin:boolean):string{
+    let query = `SELECT * FROM ${tableName} `;
+
+    for (let i = 0; i < attributes.length; i++) {
+        if (i < attributes.length - 1) {
+            query += `(${attributes[i].name} = ?) AND `;
+        }
+
+        query += `(${attributes[i].name} = ? )`;
+
+        if(isAdmin)
+            return query;
+
+        if(hasPermissions )
+            query += ` AND ${AffectationTable.affectationPermissionsAttributes.AffectationId} 
+            NOT IN (?)`;
+        
+        return query;    
+    }
+
+
+    return query;
+}
 
 const InventoryTable = {
 
     createTableQuery: createTableQuery,
+
+    generateSearchQuery : generateSearchQuery,
+
+    generateUpdateQuery: generateUpdateQuery,
 
     selectAllQuery: selectAllQuery,
 
@@ -50,10 +101,16 @@ const InventoryTable = {
 
     clearAllQuery: clearAllQuery,
 
+    registerInventoryProduct: registerInventoryProduct,
+
+    unregisterInventoryProduct: unregisterInventoryProduct,
+
+    registerInventoryProductBatch : registerInventoryProductBatch,
+
     tableName: tableName,
 
     attributes: Attributes
-}  
+}
 
 interface InventoryProductRow {
     ArticleId: number;
@@ -66,4 +123,4 @@ interface InventoryProductRow {
     ArticlePrice: number;
 }
 
-export { InventoryTable, InventoryProductRow}
+export { InventoryTable, InventoryProductRow }

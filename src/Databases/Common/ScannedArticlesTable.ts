@@ -1,3 +1,5 @@
+import { InventoryTable } from "./InventoryTable";
+
 const tableName = 'ScannedArticles';
 
 enum Attributes {
@@ -16,14 +18,18 @@ const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
     )`;
 
 
-const selectScannedQuery = `SELECT * FROM ${tableName} WHERE ${Attributes.ScannedCodebar} = ?`; 
+const selectScannedQuery = `SELECT * FROM ${tableName} `; 
 
 const insertScannedQuery = `INSERT IGNORE INTO ${tableName} (${Attributes.ScannedCodebar},${Attributes.AffectationId}) VALUES (?,?)`;
 
 const clearAllQuery = `TRUNCATE TABLE ${tableName}`;
 
+const selectUnScannedQuery = `SELECT * FROM ${InventoryTable.tableName} WHERE 
+    ${InventoryTable.attributes.ArticleId} NOT IN (${selectScannedQuery})`;
+
 export const ScannedArticlesTable = {
     selectScannedQuery: selectScannedQuery,
+    selectUnScannedQuery : selectUnScannedQuery,
     insertScannedQuery: insertScannedQuery,
     createTableQuery: createTableQuery,
     attributes : Attributes,

@@ -61,6 +61,7 @@ const registerRecordQuery = `INSERT INTO ${tableName} (
     ${Attributes.StockPrice}, ${Attributes.QuantityShift}, ${Attributes.PriceShift},
     ${Attributes.WorkerName}, ${Attributes.ArticleName})
     VALUES (?,?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?)`;
+
     
 export const ActiveSessionRecordsTable = {
     createTableQuery: createTableQuery,
