@@ -27,8 +27,10 @@ async function checkIfIpAddressChanged(currentIpAddress:string) : Promise<boolea
     return new Promise<boolean>((resolve, reject) => {
         dns.lookup(domain_name, (err, address, family) => {
             if(err){
+                console.log(err);
                 resolve(false);
             }
+            console.log(`Current Ip Address: ${currentIpAddress} , Domain Ip Address: ${address}`);
             resolve(currentIpAddress === address);
         });
     });

@@ -65,6 +65,7 @@ const websocketManager : WebsocketManager = {
 
         server.on('upgrade', async function upgrade(request, socket, head) {
 
+            console.log("Upgrade request")
             const allowConnection = await validatekHandshake(request)
 
             if (!allowConnection) {

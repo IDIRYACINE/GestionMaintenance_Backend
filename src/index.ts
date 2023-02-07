@@ -11,7 +11,7 @@ import { AllowedHeaders, AllowedMethods, ApiMethods, testDatabaseConnection } fr
 import { MariaDb } from './Databases/MariaDb/MariaDb';
 import { websocketManager } from './WebSocketManager/WebSocketManager';
 import { ActiveSession } from './State/ActiveSession';
-import { DnsState } from 'State/DnsSession';
+import { DnsState } from './State/DnsSession';
 
 
 const app = express();
@@ -29,15 +29,23 @@ const eventsPath = path.join(process.cwd(), 'apis');
 const registerApis : RegisterApiCallback = (api)=>{
   if (api.type === ApiMethods.Get) {
     app.get(api.url, (req, res) => {
+      console.log("get")
         api.execute(req, res);
     })
   }
 	else {
 		app.post(api.url, (req, res) => {
+      console.log("get")
+
       api.execute(req, res);
   })
   } 
 }
+
+app.get('/test', (req, res) => {
+  console.log("test")
+  res.send("test")
+})
 
 DnsState.registerNewIpAddress();
 

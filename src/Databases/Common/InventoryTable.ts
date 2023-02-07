@@ -30,9 +30,9 @@ const createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (
 
 
 
-const selectInventoryProduct = `SELECT ${tableName}.* , ${AffectationTable.tableName}.${AffectationTable.attributes.AffectationName}
+const selectInventoryProduct = `SELECT ${tableName}.* , ${AffectationTable.affectationTableName}.${AffectationTable.affectationAttributes.AffectationName}
     FROM ${tableName} 
-    INNER JOIN ${AffectationTable.tableName} ON ${AffectationTable.tableName}.${AffectationTable.attributes.AffectationId}
+    INNER JOIN ${AffectationTable.affectationTableName} ON ${AffectationTable.affectationTableName}.${AffectationTable.affectationAttributes.AffectationId}
      = ${tableName}.${Attributes.AffectationId}
     WHERE ${Attributes.ArticleCode} =  ? AND ${tableName}.${Attributes.AffectationId} IN (?)`
 
