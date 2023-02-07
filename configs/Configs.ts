@@ -53,3 +53,11 @@ export const autherisedAdminToken = "embag343adminvcs";
 export const AllowedHeaders = [Headers.ContentType, Headers.AccessToken];
 export const AllowedMethods = [Methods.Get, Methods.Post];
 export const AllowedOrigins = ["localhost:3050","http://localhost:3000"];
+
+
+
+const duckdns_token = "aaf989ca-a203-49ee-8349-08df10174ee2"
+const duckdns_domain = "embag"
+
+export const dns_update_api = `https://duckdns.org/update/${duckdns_domain}}/${duckdns_token}`;
+export const domain_name = "embag.duckdns.org"

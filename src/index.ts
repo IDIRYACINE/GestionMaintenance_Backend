@@ -11,6 +11,7 @@ import { AllowedHeaders, AllowedMethods, ApiMethods, testDatabaseConnection } fr
 import { MariaDb } from './Databases/MariaDb/MariaDb';
 import { websocketManager } from './WebSocketManager/WebSocketManager';
 import { ActiveSession } from './State/ActiveSession';
+import { DnsState } from 'State/DnsSession';
 
 
 const app = express();
@@ -38,11 +39,13 @@ const registerApis : RegisterApiCallback = (api)=>{
   } 
 }
 
+DnsState.registerNewIpAddress();
+
 getAllFiles(eventsPath,registerApis)
 
 MariaDb.connect(testDatabaseConnection).then(_ => ActiveSession.notifySessionIdChange())
 
-const httpServer = app.listen(process.env.PORT || 3050)
+const httpServer = app.listen(3050,()=>{});
 
 websocketManager.createSocket(httpServer);
 
