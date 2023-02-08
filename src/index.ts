@@ -1,4 +1,4 @@
-/// <reference path="../types/ApiInterface.ts" />
+/// <reference path="../types/ApiInterface.d.ts" />
 
 
 import express from 'express';

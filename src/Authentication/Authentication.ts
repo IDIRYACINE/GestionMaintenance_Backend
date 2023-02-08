@@ -1,4 +1,4 @@
-/// <reference path="../../types/Authentication.ts" />
+/// <reference path="../../types/Authentication.d.ts" />
 
 import { MariaDb } from "../Databases/MariaDb/MariaDb";
 import { autherisedAdminToken, autherisedWorkerToken } from "../../configs/Configs";

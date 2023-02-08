@@ -1,4 +1,4 @@
-/// <reference path="../types/ApiInterface.ts" />
+/// <reference path="../types/ApiInterface.d.ts" />
 import { Authentication } from "../src/Authentication/Authentication";
 import { Request, Response } from "express";
 import { ApiMethods, ApisEnum, apisRootPath } from "../configs/Configs";

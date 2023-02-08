@@ -1,4 +1,5 @@
-/// <reference path="../../../types/Database.ts" />
+/// <reference path="../../../types/Database.d.ts" />
+/// <reference path="../../../types/ApiRequestModels.d.ts" />
 
 import { ActiveSessionRecordsTable } from "../Common/ActiveSessionRecordsTable";
 import { SessionWorkersTable } from "../Common/SessionWorkersTable";
@@ -46,9 +47,9 @@ export const MariaDb: Database = {
     closeSession: async function (sessionId): Promise<void> {
 
 
-        
+
         db.execute(ScannedArticlesTable.clearAllQuery);
-        db.execute(SessionTable.closeSessionQuery, [false,sessionId]);
+        db.execute(SessionTable.closeSessionQuery, [false, sessionId]);
 
 
     },
@@ -69,16 +70,16 @@ export const MariaDb: Database = {
         });
     },
 
-    fetchActiveSessionRecords: async function (permissions:number[]): Promise<SessionRecord[]> {
-        let pPermission  = ""
-        permissions.forEach((permission,index) => {
-            pPermission += permission
-            if(index < permissions.length - 1){
-                pPermission += permission + ","
+    fetchActiveSessionRecords: async function (permissions: number[]): Promise<SessionRecord[]> {
+        let pPermission = "";
+        permissions.forEach((permission, index) => {
+            pPermission += permission;
+            if (index < permissions.length - 1) {
+                pPermission += permission + ",";
             }
-        })
+        });
 
-        return db.execute(ActiveSessionRecordsTable.selectByPermissionQuery,[pPermission,ActiveSession.getSessionId()]);
+        return db.execute(ActiveSessionRecordsTable.selectByPermissionQuery, [pPermission, ActiveSession.getSessionId()]);
     },
 
     registerSessionWorker: async function (worker): Promise<void> {
@@ -181,13 +182,12 @@ export const MariaDb: Database = {
                 locationName: data.AffectationName,
                 locationId: data.AffectationId,
                 price: data.ArticlePrice,
-                
             };
         }
         );
     },
-    fetchScannedBarocde: async function (barcode: number): Promise<Boolean>  {
-        
+    fetchScannedBarocde: async function (barcode: number): Promise<Boolean> {
+
         return db.query(ScannedArticlesTable.selectScannedQuery, [barcode]).then(rows => {
             if (rows.length === 0) {
                 return false;
@@ -196,8 +196,39 @@ export const MariaDb: Database = {
         });
 
     },
-    insertScannedBarcode: function (barcode: number,affectationId:number): Promise<void> {
-        return db.execute(ScannedArticlesTable.insertScannedQuery, [barcode,affectationId]);
+    insertScannedBarcode: function (barcode: number, affectationId: number): Promise<void> {
+        return db.execute(ScannedArticlesTable.insertScannedQuery, [barcode, affectationId]);
+    },
+    registerInventoryProduct: function (product: InventoryProduct): Promise<void> {
+        return db.execute(InventoryTable.registerInventoryProduct, [
+            product.articleId,
+            product.articleName,
+            product.articleCode,
+            product.affectationId,
+            product.familyCode
+        ]);
+    },
+    unregisterInventoryProduct: function (productId: number): Promise<void> {
+        return db.execute(InventoryTable.unregisterInventoryProduct, [productId]);
+    },
+    updateInventoryProduct: function (productId: number, attributes: AttributesWrapper[]): Promise<void> {
+        const query = InventoryTable.generateUpdateQuery(attributes);
+        return db.execute(query, [productId, ...attributes.map((attribute) => attribute.value)]);
+    },
+    searchInventoryProduct: function (attributes: AttributesWrapper[],permissions:number[],isAdmin:boolean): Promise<void> {
+        const hasPermissions = permissions.length > 0;
+
+        const query = InventoryTable.generateSearchQuery(attributes,hasPermissions,isAdmin);
+
+        const attributesList = attributes.map((attribute) => attribute.value);
+        const permissionsList = [];
+
+        if (hasPermissions && !isAdmin) {
+            permissions.every((permission, index) => {
+            permissionsList.push(permission)})
+        }
+
+        return db.execute(query, [...attributesList, ...permissionsList]);
     }
 }
 

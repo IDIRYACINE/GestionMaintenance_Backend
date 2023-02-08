@@ -1,4 +1,4 @@
-/// <reference path="../../types/FileLoader.ts" />
+/// <reference path="../../types/FileLoader.d.ts" />
 
 import {readdirSync} from 'node:fs';
 

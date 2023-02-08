@@ -1,5 +1,5 @@
-/// <reference path="../types/ApiInterface.ts" />
-/// <reference path="../types/Authentication.ts" />
+/// <reference path="../types/ApiInterface.d.ts" />
+/// <reference path="../types/Authentication.d.ts" />
 
 import { Authentication } from "../src/Authentication/Authentication";
 import { Request, Response } from "express";

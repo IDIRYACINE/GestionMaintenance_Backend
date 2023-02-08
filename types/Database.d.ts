@@ -7,6 +7,15 @@ interface ProductFetchQuery{
     workerName : string,
 }
 
+interface InventoryProduct{
+    articleId : number,
+    articleCode : string,
+    stockId : number,
+    articleName : string,
+    affectationId : number,
+    familyCode : number,
+}
+
 interface SessionWorker{
     workerId : number,
     phone? : string,
@@ -50,6 +59,9 @@ interface ConnectionParameters{
 }
 
 interface Database {
+    searchInventoryProduct(attributes: AttributesWrapper[],permissions:number[],isAdmin:boolean):Promise<void>,
+    updateInventoryProduct(productId: number, attributes: AttributesWrapper[]): Promise<void>,
+    unregisterInventoryProduct(productId: number): Promise<void>,
     connect(parameters : ConnectionParameters): Promise<void>,
     disconnect(): Promise<void>,
     openSession(session:Session) : Promise<void>,
@@ -65,4 +77,5 @@ interface Database {
     fetchProduct(productQuery : ProductFetchQuery) : Promise<ProductDetaillsResponse>,
     fetchScannedBarocde(barcode:number) : Promise<Boolean>,
     insertScannedBarcode(barcode:number,affectationId:number) : Promise<void>,
+    registerInventoryProduct(product:InventoryProduct) : Promise<void>,
 }

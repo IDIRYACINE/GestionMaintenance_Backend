@@ -1,4 +1,4 @@
-/// <reference path= "../../types/SessionState.ts" />
+/// <reference path= "../../types/SessionState.d.ts" />
 
 import { MariaDb } from "../Databases/MariaDb/MariaDb" ;
 

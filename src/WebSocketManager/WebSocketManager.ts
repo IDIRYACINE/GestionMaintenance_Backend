@@ -1,4 +1,4 @@
-///<reference path="../../types/WebSocketManager.ts" />
+///<reference path="../../types/WebSocketManager.d.ts" />
 
 import { Authentication } from "../Authentication/Authentication"
 import { WebSocketServer,WebSocket } from 'ws';

@@ -1,4 +1,4 @@
-/// <reference path="../types/Database.ts" />
+/// <reference path="../types/Database.d.ts" />
 
 export const apisRootPath = "/api/v";
 
@@ -7,7 +7,22 @@ export enum ApiMethods {
     Post
 }
 
-export enum ApisEnum{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export enum ApisEnum {
     loginAdmin = "loginAdmin",
     fetchActiveSession = "fetchActiveSession",
     fetchActiveSessionRecords = "fetchActiveSessionRecords",
@@ -22,6 +37,10 @@ export enum ApisEnum{
     fetchProduct = "fetchProduct",
     submitRecord = "submitRecord",
     registerSessionRecord = "registerSessionRecord",
+    registerInventoryProduct = "registerInventoryProduct",
+    unregisterInventoryProduct = "unregisterInventoryProduct",
+    updateInventoryProduct = "updateInventoryProduct",
+    searchInventoryProduct = "searchInventoryProduct"
 }
 
 export enum QueriesEnum{

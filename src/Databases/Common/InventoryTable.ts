@@ -40,11 +40,11 @@ const selectAllQuery = `SELECT * FROM ${tableName} `;
 
 const clearAllQuery = `TRUNCATE TABLE ${tableName}`;
 
-const registerInventoryProduct = `INSERT INTO ${tableName} (  ${Attributes.ArticleId} ${AttributesTypes.ArticleId} ,
+const registerInventoryProduct = `INSERT INTO ${tableName} (  ${Attributes.ArticleId}  ,
     ${Attributes.ArticleName} , ${Attributes.ArticleCode} ,${Attributes.AffectationId} ,${Attributes.FamilyCode})
     VALUES (?,?,?,?,?,?)`;
 
-const registerInventoryProductBatch = `INSERT INTO ${tableName} (  ${Attributes.ArticleId} ${AttributesTypes.ArticleId} ,
+const registerInventoryProductBatch = `INSERT INTO ${tableName} (  ${Attributes.ArticleId} ,
         ${Attributes.ArticleName} , ${Attributes.ArticleCode} ,${Attributes.AffectationId} ,${Attributes.FamilyCode})
         VALUES ?`;
 

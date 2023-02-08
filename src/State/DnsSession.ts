@@ -1,4 +1,4 @@
-/// <reference path= "../../types/DnsState.ts" />
+/// <reference path= "../../types/DnsState.d.ts" />
 
 import {dns_update_api,domain_name}  from '../../configs/Configs';
 import dns from 'dns';

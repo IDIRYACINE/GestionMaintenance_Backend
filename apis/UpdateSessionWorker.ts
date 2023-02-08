@@ -1,4 +1,5 @@
-/// <reference path="../types/ApiInterface.ts" />
+/// <reference path="../types/ApiInterface.d.ts" />
+
 import { database } from "../src/Databases/Database";
 import { Request, Response } from "express";
 import { ApiMethods, ApisEnum, apisRootPath } from "../configs/Configs";

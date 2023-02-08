@@ -1,4 +1,4 @@
-/// <reference path="../types/ApiInterface.ts" />
+/// <reference path="./ApiInterface.d.ts" />
 
 interface Authentication {
     authenticateAccessToken(accessToken: string): Promise<boolean>;
