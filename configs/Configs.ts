@@ -22,6 +22,22 @@ export enum ApiMethods {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export enum ApisEnum {
     loginAdmin = "loginAdmin",
     fetchActiveSession = "fetchActiveSession",
@@ -40,7 +56,8 @@ export enum ApisEnum {
     registerInventoryProduct = "registerInventoryProduct",
     unregisterInventoryProduct = "unregisterInventoryProduct",
     updateInventoryProduct = "updateInventoryProduct",
-    searchInventoryProduct = "searchInventoryProduct"
+    searchInventoryProduct = "searchInventoryProduct",
+    submitRecordBatch = "submitRecordBatch"
 }
 
 export enum QueriesEnum{
